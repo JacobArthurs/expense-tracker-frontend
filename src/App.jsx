@@ -10,6 +10,7 @@ import Expenses from './pages/Expenses';
 import Distributions from './pages/Distributions';
 import { ToolbarComponent } from './components/ToolbarComponent';
 import { SidebarComponent } from './components/SidebarComponent';
+import { FooterComponent } from './components/FooterComponent';
 
 export default function App() {
   const [open, setOpen] = React.useState(false);
@@ -40,7 +41,7 @@ export default function App() {
       <Router>
         <Box sx={{ display: 'flex' }}>
           <CssBaseline />
-          <ToolbarComponent open={open} onToggleDrawer={handleToggleDrawer} darkMode={darkMode} onToggleDarkMode={handleToggleDarkMode}/>
+          <ToolbarComponent open={open} onToggleDrawer={handleToggleDrawer} darkMode={darkMode} onToggleDarkMode={handleToggleDarkMode} />
           <SidebarComponent open={open} onToggleDrawer={handleToggleDrawer} />
           <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             <Box
@@ -61,6 +62,7 @@ export default function App() {
             </Routes>
           </Box>
         </Box>
+        <FooterComponent />
       </Router>
     </ThemeProvider>
   );

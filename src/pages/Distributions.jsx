@@ -1,10 +1,13 @@
 import React from "react";
+import { Box, Typography } from "@mui/material";
 
 const Distributions = () => {
-  return (
-    <div>
-      <p>This is the distributions content.</p>
-    </div>
+    return (
+        <Box>
+            <Typography variant="h6">
+                Distribution Content
+            </Typography>
+        </Box>
   );
 };
 

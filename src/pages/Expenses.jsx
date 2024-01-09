@@ -1,10 +1,13 @@
 import React from "react";
+import { Box, Typography } from "@mui/material";
 
 const Expenses = () => {
-  return (
-    <div>
-      <p>This is the expenses content.</p>
-    </div>
+    return (
+        <Box>
+            <Typography variant="h6">
+                Expense Content
+            </Typography>
+        </Box>
   );
 };
 

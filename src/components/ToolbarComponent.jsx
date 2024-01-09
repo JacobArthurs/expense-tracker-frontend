@@ -1,7 +1,7 @@
 import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
+import { Link } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -48,9 +48,9 @@ export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkM
       >
         <MenuIcon />
       </IconButton>
-      <Typography variant="h6" noWrap component="div">
-        Expense Tracker
-      </Typography>
+      <Link to="/" style={{ display: 'inline-block' }}>
+        <img src="/src/assets/favicon-32x32.png" alt='Expense Tracker' style={{ display: 'block' }} />
+      </Link>
       <Tooltip title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'} arrow>
         <IconButton onClick={onToggleDarkMode} color="inherit">
           {darkMode ? <DarkModeIcon /> : <LightModeIcon />}
