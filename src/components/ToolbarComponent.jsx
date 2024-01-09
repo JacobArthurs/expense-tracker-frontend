@@ -5,8 +5,8 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import MenuIcon from '@mui/icons-material/Menu';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 const drawerWidth = 240;
 
@@ -53,7 +53,7 @@ export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkM
       </Typography>
       <Tooltip title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'} arrow>
         <IconButton onClick={onToggleDarkMode} color="inherit">
-          {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+          {darkMode ? <DarkModeIcon /> : <LightModeIcon />}
         </IconButton>
       </Tooltip>
     </Toolbar>
