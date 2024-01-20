@@ -47,7 +47,8 @@ const Login = () => {
     }
 
     try {
-        const response = await axios.post('http://localhost:8080/api/authentication/login', {
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+        const response = await axios.post(`${apiUrl}/api/authentication/login`, {
           userName: formData.username,
           password: formData.password,
         });
@@ -56,10 +57,10 @@ const Login = () => {
 
         if (token) {
             setToken(token);
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             navigate('/');
         }
     } catch (error) {
+        console.log(error);
         setError('Invalid username or password. Please double-check your credentials.')
     }
   };
