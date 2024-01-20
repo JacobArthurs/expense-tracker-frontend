@@ -7,55 +7,96 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuIcon from '@mui/icons-material/Menu';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { ListItemIcon, Menu, MenuItem } from '@mui/material';
+import { useAuth } from '../providers/AuthProvider';
 
 const drawerWidth = 240;
 
-export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkMode }) => (
-  <AppBar
-    position="fixed"
-    sx={{
-      zIndex: (theme) => theme.zIndex.drawer + 1,
-      transition: (theme) => theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      ...(open && {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
+export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkMode }) => {
+  const { setToken } = useAuth();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    setToken();
+  }
+
+  return (
+    <AppBar
+      position="fixed"
+      sx={{
+        zIndex: (theme) => theme.zIndex.drawer + 1,
         transition: (theme) => theme.transitions.create(['width', 'margin'], {
           easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.enteringScreen,
+          duration: theme.transitions.duration.leavingScreen,
         }),
-      })
-    }}
-  >
-    <Toolbar
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+        ...(open && {
+          marginLeft: drawerWidth,
+          width: `calc(100% - ${drawerWidth}px)`,
+          transition: (theme) => theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+          }),
+        })
       }}
     >
-      <IconButton
-        color="inherit"
-        aria-label="open drawer"
-        onClick={onToggleDrawer}
-        edge="start"
+      <Toolbar
         sx={{
-          marginRight: 5,
-          ...(open && { visibility: 'hidden' }),
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
-        <MenuIcon />
-      </IconButton>
-      <Link to="/" style={{ display: 'inline-block' }}>
-        <img src="/src/assets/favicon-32x32.png" alt='Expense Tracker' style={{ display: 'block' }} />
-      </Link>
-      <Tooltip title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'} arrow>
-        <IconButton onClick={onToggleDarkMode} color="inherit">
-          {darkMode ? <DarkModeIcon /> : <LightModeIcon />}
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          onClick={onToggleDrawer}
+          edge="start"
+          sx={{
+            marginRight: 5,
+            ...(open && { visibility: 'hidden' }),
+          }}
+        >
+          <MenuIcon />
         </IconButton>
-      </Tooltip>
-    </Toolbar>
-  </AppBar>
-);
+        <Link to="/" style={{ display: 'inline-block' }}>
+          <img src="/src/assets/favicon-32x32.png" alt='Expense Tracker' style={{ display: 'block' }} />
+        </Link>
+        <Tooltip title="Settings" arrow>
+            <IconButton onClick={handleMenuOpen} color="inherit">
+              <SettingsIcon />
+            </IconButton>
+        </Tooltip>
+        <Menu
+          id="user-menu"
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+
+        >
+          <MenuItem onClick={onToggleDarkMode}>
+            <ListItemIcon>
+              {darkMode ? <DarkModeIcon /> : <LightModeIcon />}
+            </ListItemIcon>
+            {darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          </MenuItem>
+          <MenuItem onClick={handleLogout}>
+            <ListItemIcon>
+              <LogoutIcon />
+            </ListItemIcon>
+            Logout
+          </MenuItem>
+        </Menu>
+      </Toolbar>
+    </AppBar>
+  )
+};
