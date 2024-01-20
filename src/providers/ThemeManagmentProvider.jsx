@@ -14,10 +14,10 @@ export const ThemeManagmentProvider = ({ children }) => {
     palette: {
       mode: darkMode ? 'dark' : 'light',
       primary: {
-        main: '#F4A261',
+        main: '#6369D1',
       },
       secondary: {
-        main: '#E76F51',
+        main: '#60E1E0',
       },
     },
   });
