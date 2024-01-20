@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { TermsDialogComponent } from './TermsDialogComponent';
 import { PrivacyDialogComponent } from './PrivacyDialogComponent';
+import { Backdrop } from '@mui/material';
 
 export const FooterComponent = () => {
     const [openTermsDialog, setOpenTermsDialog] = React.useState(false);
@@ -45,6 +46,12 @@ export const FooterComponent = () => {
             </Button>
             <TermsDialogComponent open={openTermsDialog} onClose={handleCloseTermsDialog} />
             <PrivacyDialogComponent open={openPrivacyDialog} onClose={handleClosePrivacyDialog} />
+
+            <Backdrop
+              sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={openTermsDialog || openPrivacyDialog}
+            >
+            </Backdrop>
         </Box>
     );
 };
