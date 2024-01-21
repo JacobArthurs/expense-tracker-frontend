@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router';
 import { Avatar, Button, FormControlLabel, Grid, TextField, Typography, Box, Checkbox, useTheme, Tooltip, IconButton, Alert } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { Link } from 'react-router-dom';
-import { FooterComponent } from '../components/FooterComponent';
+import { FooterComponent } from '../components/navigation/FooterComponent';
 import { useThemeManagment } from '../providers/ThemeManagmentProvider';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -57,7 +57,9 @@ const Login = () => {
 
         if (token) {
             setToken(token);
-            navigate('/');
+            setTimeout(() => {
+                navigate('/');
+              });
         }
     } catch (error) {
         console.log(error);
