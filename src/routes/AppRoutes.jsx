@@ -7,7 +7,7 @@ import Distributions from '../pages/Distributions';
 import NotFound from '../pages/NotFound'
 import Login from '../pages/Login';
 import Register from '../pages/Register';
-import { NavigationComponent } from '../components/NavigationComponent';
+import { NavigationComponent } from '../components/navigation/NavigationComponent';
 
 export const AppRoutes = () => {
   const authenticatedRoutes = [
