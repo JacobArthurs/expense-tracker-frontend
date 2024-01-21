@@ -32,7 +32,7 @@ export const FooterComponent = () => {
           sx={{
             padding: 2,
             textAlign: 'center',
-            marginTop: 'auto',
+            marginTop: '16px',
           }}
         >
             <Typography variant="body2" color="textSecondary">

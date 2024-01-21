@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 
-import { ToolbarComponent } from '../components/ToolbarComponent';
-import { SidebarComponent } from '../components/SidebarComponent';
-import { FooterComponent } from '../components/FooterComponent';
-import { useThemeManagment } from '../providers/ThemeManagmentProvider';
+import { ToolbarComponent } from './ToolbarComponent';
+import { SidebarComponent } from './SidebarComponent';
+import { FooterComponent } from './FooterComponent';
+import { useThemeManagment } from '../../providers/ThemeManagmentProvider';
 
 export const NavigationComponent = ({ children }) => {
     const { darkMode, handleToggleDarkMode, theme } = useThemeManagment();
@@ -25,14 +25,15 @@ export const NavigationComponent = ({ children }) => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'flex-end',
+                    flexDirection: 'column',
                     padding: theme.spacing(0, 1),
                     ...theme.mixins.toolbar,
                   }}
                 />
                   {children}
+                  <FooterComponent />
               </Box>
             </Box>
-            <FooterComponent />
         </Box>  
     );
 }
