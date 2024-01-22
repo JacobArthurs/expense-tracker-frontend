@@ -44,7 +44,7 @@ export const CurrentExpenseAmount = () => {
 return (
     <>
         <Typography component="h2" variant="h6" color="primary" gutterBottom>
-            Current Month's Expenses
+            Current Month&apos;s Expenses
         </Typography>
         <Typography component="p" variant="h4">
             {totalAmount}

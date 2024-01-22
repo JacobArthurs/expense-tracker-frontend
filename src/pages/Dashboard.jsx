@@ -1,5 +1,4 @@
-import React from "react";
-import { Box, Container, Grid, Paper, Typography } from "@mui/material";
+import { Box, Container, Grid, Paper } from "@mui/material";
 import { MonthlyExpenseChartComponent } from "../components/dashboard/MonthlyExpenseChartComponent";
 import { CurrentExpenseAmount } from "../components/dashboard/CurrentExpenseAmountComponent";
 import { RecentExpenseComponent } from "../components/dashboard/RecentExpenseComponent";

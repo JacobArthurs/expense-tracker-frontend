@@ -35,29 +35,29 @@ const Register = () => {
         const errors = [];
 
         if (formData.username.trim() === '') {
-          validationErrors.push('Username is required');
+          errors.push('Username is required');
         }
 
         if (formData.name.trim() === '') {
-            validationErrors.push('Name is required');
+          errors.push('Name is required');
         }
 
         if (formData.email.trim() === '') {
-            validationErrors.push('Email is required');
+          errors.push('Email is required');
         }
 
         if (formData.password.trim() === '') {
-          validationErrors.push('Password is required');
+          errors.push('Password is required');
         }
 
         if (formData.confirmpassword.trim() === '') {
-            validationErrors.push('Password confirmation is required');
+          errors.push('Password confirmation is required');
         }
 
         if (formData.confirmpassword.trim() !== '' &&
             formData.password.trim() !== '' &&
             formData.confirmpassword !== formData.password) {
-            validationErrors.push('Passwords do not match');
+          errors.push('Passwords do not match');
         }
       
         return errors;

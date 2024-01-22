@@ -147,7 +147,7 @@ const Login = () => {
             </Button>
             <Grid container sx={{mt: 1, mb: 3}}>
               <Grid item>
-                <Typography variant='div' sx={{mr: 1}}>Don't have an account?</Typography>
+                <Typography variant='div' sx={{mr: 1}}>Don&apos;t have an account?</Typography>
                 <Link to="/register" variant="body2" style={{ color: theme.palette.secondary.main }}>
                     Register
                 </Link>

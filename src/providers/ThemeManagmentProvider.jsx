@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 const ThemeManagmentContext = createContext();
