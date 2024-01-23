@@ -18,7 +18,13 @@ export const NavigationComponent = ({ children }) => {
             <Box sx={{ display: 'flex' }}>
               <ToolbarComponent open={open} onToggleDrawer={handleToggleDrawer} darkMode={darkMode} onToggleDarkMode={handleToggleDarkMode} />
               <SidebarComponent open={open} onToggleDrawer={handleToggleDrawer} />
-              <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+              <Box 
+                component="main" 
+                sx={{ 
+                  flexGrow: 1,
+                  height: '100vh',
+                  overflow: 'auto'
+                }}>
                 <Box
                   component="div"
                   sx={{

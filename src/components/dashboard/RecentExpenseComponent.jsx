@@ -48,22 +48,22 @@ return (
         <Typography component="h2" variant="h6" color="primary" gutterBottom>
             Recent Expenses
         </Typography>
-        <Table size="small">
+        <Table size="small" sx={{ tableLayout: 'fixed' }}>
           <TableHead>
             <TableRow>
-              <TableCell>Date</TableCell>
+              <TableCell sx={{ display: {xs: 'none', sm: 'table-cell'} }}>Date</TableCell>
               <TableCell>Title</TableCell>
               <TableCell>Amount</TableCell>
-              <TableCell>Category</TableCell>
+              <TableCell sx={{ display: {xs: 'none', sm: 'table-cell'} }}>Category</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {expenseData.map((expense) => (
               <TableRow key={expense.id}>
-                <TableCell>{new Date(expense.createdDate).toLocaleDateString('en-US')}</TableCell>
+                <TableCell sx={{ display: {xs: 'none', sm: 'table-cell'} }}>{new Date(expense.createdDate).toLocaleDateString('en-US')}</TableCell>
                 <TableCell>{expense.title}</TableCell>
                 <TableCell>{expense.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</TableCell>
-                <TableCell>{expense.category}</TableCell>
+                <TableCell sx={{ display: {xs: 'none', sm: 'table-cell'} }}>{expense.category}</TableCell>
               </TableRow>
             ))}
           </TableBody>
