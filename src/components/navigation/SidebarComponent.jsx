@@ -61,7 +61,7 @@ export const SidebarComponent = ({ open, onToggleDrawer }) => {
       open={open}
       sx={{
         width: drawerWidth,
-        flexShrink: 0,
+        flexShrink: {xs: open ? 1 : 0, sm:0},
         whiteSpace: 'nowrap',
         boxSizing: 'border-box',
         ...(open ? openedMixin(theme) : closedMixin(theme)),
