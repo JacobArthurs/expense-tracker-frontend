@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
