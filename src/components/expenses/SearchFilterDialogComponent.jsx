@@ -2,18 +2,22 @@ import { Backdrop, Box, Button, Dialog, DialogActions, DialogContent, DialogTitl
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import SearchIcon from '@mui/icons-material/Search';
+import { DialogCloseButtonComponent } from "../shared/DialogCloseButtonComponent";
 
-export const SearchFiltersDialogComponent = ({ open, onClose, onAmountChange, amountSliderValues, amountValueText }) => {
+export const SearchFiltersDialogComponent = ({ open, onClose, onSearchTermChange, searchTerm, onAmountChange, amountValues, amountValueText, onStartDateChange, startDate, onEndDateChange, endDate, clearFilters }) => {
 
     return (
         <>
             <Dialog open={open} onClose={onClose}>
+                <DialogCloseButtonComponent onClose={onClose} />
                 <DialogTitle>Filter Expenses</DialogTitle>
                 <DialogContent>
                     <Box sx={{ py:1, display: 'flex', flexDirection: 'column', gap: 2}}>
                         <TextField 
                             fullWidth
                             id="searchText"
+                            value={searchTerm}
+                            onChange={onSearchTermChange}
                             label="Search"
                             name="serachText"
                             autoComplete='off'
@@ -23,13 +27,13 @@ export const SearchFiltersDialogComponent = ({ open, onClose, onAmountChange, am
                                     <SearchIcon />
                                   </InputAdornment>
                                 ),
-                              }}
+                            }}
                         />
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker label="From" />
+                            <DatePicker label="From" onChange={onStartDateChange} value={startDate}/>
                         </LocalizationProvider>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker label="To" />
+                            <DatePicker label="To" onChange={onEndDateChange} value={endDate}/>
                         </LocalizationProvider>
                         <Box sx={{ ml: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -37,13 +41,13 @@ export const SearchFiltersDialogComponent = ({ open, onClose, onAmountChange, am
                                     Expense Amount
                                 </Typography>
                                 <Typography variant="p">
-                                {amountValueText(amountSliderValues[0]) == amountValueText(amountSliderValues[1]) ?
+                                {amountValueText(amountValues[0]) == amountValueText(amountValues[1]) ?
                                   <>
-                                    {amountValueText(amountSliderValues[1])}
+                                    {amountValueText(amountValues[1])}
                                   </>
                                 :
                                   <>
-                                    {amountValueText(amountSliderValues[0])} to {amountValueText(amountSliderValues[1])}
+                                    {amountValueText(amountValues[0])} to {amountValueText(amountValues[1])}
                                   </>
                                 }
                                 </Typography>
@@ -52,7 +56,7 @@ export const SearchFiltersDialogComponent = ({ open, onClose, onAmountChange, am
                                 <Slider
                                     color="secondary"
                                     getAriaLabel={() => 'Amount'}
-                                    value={amountSliderValues}
+                                    value={amountValues}
                                     onChange={onAmountChange}
                                     valueLabelDisplay="auto"
                                     max={500}
@@ -64,9 +68,18 @@ export const SearchFiltersDialogComponent = ({ open, onClose, onAmountChange, am
                             </Box>
                         </Box>
                         <DialogActions>
+                        <Button 
+                                fullWidth
+                                variant="outlined"
+                                color="error"
+                                onClick={clearFilters}
+                            >
+                                Clear
+                            </Button>
                             <Button 
                                 fullWidth
                                 variant="contained"
+                                color="primary"
                                 onClick={onClose}
                             >
                                 Search

@@ -7,28 +7,29 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ClearIcon from '@mui/icons-material/Clear';
 import FilterListIcon from '@mui/icons-material/FilterList';
 
-export const SearchFiltersComponent = ({ expandedFilters, onFilterToggle, onAmountChange, amountSliderValues, amountValueText }) => {
-  
+export const SearchFiltersComponent = ({ expandedFilters, onFilterToggle, onSearchTermChange, searchTerm, onAmountChange, amountValues, amountValueText, onStartDateChange, startDate, onEndDateChange, endDate, clearFilters }) => {
     return (
         <>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                <Grid xs={11} item sx={{ mr: {xs: 2, sm: 0} }}>
+                <Grid xs={10} sm={11} item>
                     <TextField 
                         fullWidth
                         id="searchText"
+                        value={searchTerm}
+                        onChange={onSearchTermChange}
                         label="Search"
                         name="serachText"
                         autoComplete='off'
                         InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start">
+                            endAdornment: (
+                              <InputAdornment position="end">
                                 <SearchIcon />
                               </InputAdornment>
                             ),
-                          }}
+                        }}
                     />
                 </Grid>
-                <Grid xs={1} item sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Grid xs={2} sm={1}  item sx={{ display: 'flex', justifyContent: 'center' }}>
                     <Tooltip title={expandedFilters ? 'Show Less Filters' : 'Show More Filters'} arrow placement="top">
                         <IconButton aria-label="Expand" onClick={onFilterToggle}>
                             <Avatar sx={{  bgcolor: 'primary.main', display: {xs: 'none', sm: 'flex'} }}>
@@ -46,12 +47,12 @@ export const SearchFiltersComponent = ({ expandedFilters, onFilterToggle, onAmou
                     <Grid xs={11} item sx={{ display:'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <Grid xs={3} item sx={{ mr: 1 }}>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker label="From" sx={{ width: '100%' }} />
+                                <DatePicker label="From" onChange={onStartDateChange} sx={{ width: '100%' }} value={startDate} />
                             </LocalizationProvider>
                         </Grid>
                         <Grid xs={3} item sx={{ mx: 1 }}>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker label="To" sx={{ width: '100%' }} />
+                                <DatePicker label="To" onChange={onEndDateChange} sx={{ width: '100%' }} value={endDate} />
                             </LocalizationProvider>
                         </Grid>
                         <Grid xs={6} item sx={{ ml: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
@@ -60,13 +61,13 @@ export const SearchFiltersComponent = ({ expandedFilters, onFilterToggle, onAmou
                                     Expense Amount
                                 </Typography>
                                 <Typography variant="p">
-                                {amountValueText(amountSliderValues[0]) == amountValueText(amountSliderValues[1]) ?
+                                {amountValueText(amountValues[0]) == amountValueText(amountValues[1]) ?
                                   <>
-                                    {amountValueText(amountSliderValues[1])}
+                                    {amountValueText(amountValues[1])}
                                   </>
                                 :
                                   <>
-                                    {amountValueText(amountSliderValues[0])} to {amountValueText(amountSliderValues[1])}
+                                    {amountValueText(amountValues[0])} to {amountValueText(amountValues[1])}
                                   </>
                                 }
                                 </Typography>
@@ -75,7 +76,7 @@ export const SearchFiltersComponent = ({ expandedFilters, onFilterToggle, onAmou
                                 <Slider
                                     color="secondary"
                                     getAriaLabel={() => 'Amount'}
-                                    value={amountSliderValues}
+                                    value={amountValues}
                                     onChange={onAmountChange}
                                     valueLabelDisplay="auto"
                                     max={500}
@@ -89,7 +90,7 @@ export const SearchFiltersComponent = ({ expandedFilters, onFilterToggle, onAmou
                     </Grid>
                     <Grid xs={1} item sx={{ display: 'flex', justifyContent: 'center', height: '100%' }}>
                         <Tooltip title="Clear Filters" arrow placement="top">
-                            <IconButton aria-label="Clear Filters" color="error" sx={{ border: .5 }}>
+                            <IconButton aria-label="Clear Filters" color="error" sx={{ border: .5 }} onClick={clearFilters}>
                                 <ClearIcon />
                             </IconButton>
                         </Tooltip>
