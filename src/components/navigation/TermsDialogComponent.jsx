@@ -1,4 +1,3 @@
-import React from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -6,9 +5,11 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
+import { DialogCloseButtonComponent } from '../shared/DialogCloseButtonComponent';
 
 export const TermsDialogComponent = ({ open, onClose }) => (
   <Dialog open={open} onClose={onClose}>
+    <DialogCloseButtonComponent onClose={onClose} />
     <DialogTitle>Terms of Service</DialogTitle>
     <DialogContent>
       <DialogContentText>
@@ -44,7 +45,7 @@ export const TermsDialogComponent = ({ open, onClose }) => (
         <strong>Disclaimer:</strong>
       </DialogContentText>
       <DialogContentText>
-        Our services are provided "as is" without any warranty or representation, express or implied. We do not guarantee that the services will be error-free or uninterrupted.
+        Our services are provided &quot;as is&quot; without any warranty or representation, express or implied. We do not guarantee that the services will be error-free or uninterrupted.
       </DialogContentText>
       <DialogContentText mt={1}>
         <strong>Changes to Terms:</strong>

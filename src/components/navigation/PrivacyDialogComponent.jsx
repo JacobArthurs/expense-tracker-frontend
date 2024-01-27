@@ -5,9 +5,11 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
+import { DialogCloseButtonComponent } from '../shared/DialogCloseButtonComponent';
 
 export const PrivacyDialogComponent = ({ open, onClose }) => (
   <Dialog open={open} onClose={onClose}>
+    <DialogCloseButtonComponent onClose={onClose} />
     <DialogTitle>Privacy Policy</DialogTitle>
     <DialogContent>
     <DialogContentText>
