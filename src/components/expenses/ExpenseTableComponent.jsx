@@ -2,8 +2,8 @@ import { Box, Checkbox, CircularProgress, IconButton, Table, TableBody, TableCel
 import { TablePaginationActions } from "../shared/TablePaginationActionsComponent";
 import EditIcon from '@mui/icons-material/Edit';
 
-export const ExpenseTableComponent = ({ data, totalRows, page, onChangePage, rowsPerPage, onChangeRowsPerPage, selectedRows, onSelectRow, onSelectAll }) => {
-    const rowsInView = data ? data.length : 0;
+export const ExpenseTableComponent = ({ data, totalRows, page, onChangePage, rowsPerPage, onChangeRowsPerPage, selectedRows, onSelectRow, onSelectAll, onEditExpense }) => {
+    const rowsInView = data.map(exp => exp.id);
     
     function isRowSelected(id) {
       const index = selectedRows.indexOf(id);
@@ -29,10 +29,10 @@ export const ExpenseTableComponent = ({ data, totalRows, page, onChangePage, row
             <TableHead>
                 <TableRow>
                     <TableCell padding="checkbox">
-                        <Tooltip title={selectedRows.length > 0 && selectedRows.length == rowsInView ? 'Deselect All in View' : 'Select All in View'} arrow>
+                        <Tooltip title={selectedRows.length > 0 && rowsInView.every(element => selectedRows.includes(element)) ? 'Deselect All in View' : 'Select All in View'} arrow>
                             <Checkbox color="primary"
-                                indeterminate={selectedRows.length > 0 && selectedRows.length < rowsInView}
-                                checked={selectedRows.length > 0 && selectedRows.length == rowsInView}
+                                indeterminate={selectedRows.length > 0 && !rowsInView.every(element => selectedRows.includes(element))}
+                                checked={selectedRows.length > 0 && rowsInView.every(element => selectedRows.includes(element))}
                                 onChange={() => onSelectAll(rowsInView)}
                                 inputProps={{
                                   'aria-labelledby': '',
@@ -63,7 +63,7 @@ export const ExpenseTableComponent = ({ data, totalRows, page, onChangePage, row
                 <TableCell onClick={() => onSelectRow(expense.id)}>{expense.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</TableCell>
                 <TableCell onClick={() => onSelectRow(expense.id)}>{new Date(expense.createdDate).toLocaleDateString('en-US')}</TableCell>
                 <TableCell onClick={() => onSelectRow(expense.id)}>{expense.category}</TableCell>
-                <TableCell>
+                <TableCell onClick={() => onEditExpense(expense.id)}>
                   <Tooltip title='Edit Expense' arrow>
                     <IconButton>
                         <EditIcon />

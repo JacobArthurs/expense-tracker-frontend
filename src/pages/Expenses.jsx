@@ -8,9 +8,11 @@ import { ManageExpenseComponent } from "../components/expenses/ManageExpenseComp
 import axios from "axios";
 import { DeleteDialogComponent } from "../components/shared/DeleteDialogComponent";
 import { OperationResultSnackComponent } from "../components/shared/OperationResultSnackComponent";
+import { ManageExpenseDialogComponent } from "../components/expenses/ManageExpenseDialogComponent";
 
 const Expenses = () => {
     const [data, setData] = React.useState([]);
+    const [categories, setCategories] = React.useState([]);
     const [total, setTotal] = React.useState(0);
     const [page, setPage] = React.useState(0);
     const [limit, setLimit] = React.useState(10);
@@ -25,11 +27,13 @@ const Expenses = () => {
     const [openResultSnack, setOpenResultSnack] = React.useState(false);
     const [resultSnackMessage, setResultSnackMessage] = React.useState('');
     const [resultSnackSeverity, setResultSnackSeverity] = React.useState('success');
+    const [openManageExepenseDialog, setOpenManageExepenseDialog] = React.useState(false);
+    const [manageExpenseId, setManageExpenseId] = React.useState(null);
     const isScreenXs = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
     const fetchData = async () => {
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
         const response = await axios.post(`${apiUrl}/api/expense/search`, {
           offset: page * limit,
           limit: limit,
@@ -50,6 +54,19 @@ const Expenses = () => {
         console.log(error);
       }
     };
+
+    const fetchCategories = async () => {
+        try {
+          const response = await axios.get(`${apiUrl}/api/category`); 
+    
+          const data = response.data;  
+          if (data) {
+            setCategories(data);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
 
     const deleteData = async (deletedIds) => {
         try {
@@ -90,6 +107,10 @@ const Expenses = () => {
     };
 
     const debouncedFetchData = useDebounce(fetchData, 300);
+
+    useEffect(() => {
+        fetchCategories();
+    }), [];
 
     useEffect(() => {
         debouncedFetchData();
@@ -174,10 +195,10 @@ const Expenses = () => {
     }
 
     const handleSelectAll = (rowsInView) => {
-        if (selectedRows.length == rowsInView)
-            setSelectedRows([]);
+        if (rowsInView.every(element => selectedRows.includes(element)))
+            setSelectedRows(selectedRows.filter(element => !rowsInView.includes(element)));
         else
-            setSelectedRows(data.map(item => item.id));
+            setSelectedRows(selectedRows.concat(rowsInView));
     }
 
     const handleDelete = () => {
@@ -190,8 +211,34 @@ const Expenses = () => {
 
         debouncedFetchData();
     }
+
+    const handleOpenResultSnack = () => {
+        setOpenResultSnack(true);
+    }
+
     const handleCloseResultSnack = () => {
         setOpenResultSnack(false);
+    }
+
+    const handleResultSnackMessageChange = (message) => {
+        setResultSnackMessage(message);
+    }
+
+    const handleResultSnackSeverityChange = (severity) => {
+        setResultSnackSeverity(severity);
+    }
+
+    const handleOpenManageExpenseDialog = (id) => {
+        setOpenManageExepenseDialog(true);
+
+        if (id) {
+            setManageExpenseId(id);
+        }
+    }
+
+    const handleCloseManageExepenseDialog = () => {
+        setOpenManageExepenseDialog(false);
+        setManageExpenseId(null);
     }
 
     return (
@@ -232,6 +279,16 @@ const Expenses = () => {
                         <ManageExpenseComponent 
                             selectedRows={selectedRows}
                             onDelete={handleOpenDeleteDialog}
+                            onNewExpense={handleOpenManageExpenseDialog}
+                        />
+                        <ManageExpenseDialogComponent
+                            id={manageExpenseId}
+                            categories={categories}
+                            open={openManageExepenseDialog}
+                            onClose={handleCloseManageExepenseDialog}
+                            onOpenResultSnack={handleOpenResultSnack}
+                            onResultSnackMessageChange={handleResultSnackMessageChange}
+                            onResultSnackSeverityChange={handleResultSnackSeverityChange}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -245,6 +302,7 @@ const Expenses = () => {
                             selectedRows={selectedRows}
                             onSelectRow={handleSelectRow}
                             onSelectAll={handleSelectAll}
+                            onEditExpense={handleOpenManageExpenseDialog}
                         />
                         <DeleteDialogComponent
                             open={openDeleteDialog}
