@@ -9,6 +9,8 @@ import axios from "axios";
 import { DeleteDialogComponent } from "../components/shared/DeleteDialogComponent";
 import { OperationResultSnackComponent } from "../components/shared/OperationResultSnackComponent";
 import { ManageExpenseDialogComponent } from "../components/expenses/ManageExpenseDialogComponent";
+import { useParams } from "react-router-dom";
+import dayjs from "dayjs";
 
 const Expenses = () => {
     const [data, setData] = React.useState([]);
@@ -30,6 +32,7 @@ const Expenses = () => {
     const [resultSnackSeverity, setResultSnackSeverity] = React.useState('success');
     const [openManageExepenseDialog, setOpenManageExepenseDialog] = React.useState(false);
     const [manageExpenseId, setManageExpenseId] = React.useState(null);
+    const { inputStartDate } = useParams();
     const isScreenXs = useMediaQuery((theme) => theme.breakpoints.down('sm'));
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
@@ -55,19 +58,6 @@ const Expenses = () => {
         console.log(error);
       }
     };
-
-    const fetchCategories = async () => {
-        try {
-          const response = await axios.get(`${apiUrl}/api/category`); 
-    
-          const data = response.data;  
-          if (data) {
-            setCategories(data);
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      };
 
     const deleteData = async (deletedIds) => {
         try {
@@ -110,8 +100,27 @@ const Expenses = () => {
     const debouncedFetchData = useDebounce(fetchData, 300);
 
     useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+              const response = await axios.get(`${apiUrl}/api/category`); 
+        
+              const data = response.data;  
+              if (data) {
+                setCategories(data);
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          };
+
         fetchCategories();
-    }), [];
+    }, [apiUrl]);
+
+    useEffect(() => {
+        if (inputStartDate) {
+            setStartDate(dayjs(inputStartDate));
+        }
+    }, [inputStartDate]);
 
     useEffect(() => {
         debouncedFetchData();

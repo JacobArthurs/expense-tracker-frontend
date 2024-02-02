@@ -13,7 +13,7 @@ export const AppRoutes = () => {
   const authenticatedRoutes = [
     { path: "/", element: <Dashboard /> },
     { path: "/categories", element: <Categories /> },
-    { path: "/expenses", element: <Expenses /> },
+    { path: "/expenses/:inputStartDate?", element: <Expenses /> },
     { path: "/distributions", element: <Distributions /> },
     { path: "/404", element: <NotFound /> },
     { path: "*", element: <Navigate to="/404" />},
