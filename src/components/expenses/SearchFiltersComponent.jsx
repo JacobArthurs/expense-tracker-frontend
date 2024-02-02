@@ -1,4 +1,4 @@
-import { Avatar, Box, Collapse, Grid, IconButton, InputAdornment, Slider, TextField, Tooltip, Typography } from "@mui/material";
+import { Avatar, Box, Collapse, FormControl, Grid, IconButton, InputAdornment, InputLabel, MenuItem, Select, Slider, TextField, Tooltip, Typography } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import SearchIcon from '@mui/icons-material/Search';
@@ -7,7 +7,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ClearIcon from '@mui/icons-material/Clear';
 import FilterListIcon from '@mui/icons-material/FilterList';
 
-export const SearchFiltersComponent = ({ expandedFilters, onFilterToggle, onSearchTermChange, searchTerm, onAmountChange, amountValues, amountValueText, onStartDateChange, startDate, onEndDateChange, endDate, clearFilters }) => {
+export const SearchFiltersComponent = ({ categories, expandedFilters, onFilterToggle, onSearchTermChange, searchTerm, onAmountChange, amountValues, amountValueText, onStartDateChange, startDate, onEndDateChange, endDate, searchCategory, onSearchCategoryChange, clearFilters }) => {
     return (
         <>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -55,7 +55,24 @@ export const SearchFiltersComponent = ({ expandedFilters, onFilterToggle, onSear
                                 <DatePicker label="To" onChange={onEndDateChange} sx={{ width: '100%' }} value={endDate} />
                             </LocalizationProvider>
                         </Grid>
-                        <Grid xs={6} item sx={{ ml: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <Grid xs={3} item sx={{ mx: 1 }}>
+                            <FormControl fullWidth>
+                                <InputLabel>Category</InputLabel>
+                                <Select
+                                    value={searchCategory}
+                                    onChange={onSearchCategoryChange}
+                                    label="Category"
+                                    name="category"
+
+                                >
+                                    <MenuItem value="">None</MenuItem>
+                                    {categories.map((category) => (
+                                        <MenuItem key={category.id} value={category.id}>{category.title}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid xs={3} item sx={{ ml: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Typography variant="p">
                                     Expense Amount

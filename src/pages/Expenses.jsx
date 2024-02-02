@@ -20,6 +20,7 @@ const Expenses = () => {
     const [amountValues, setAmountValues] = React.useState([0, 500]);
     const [startDate, setStartDate] = React.useState(null);
     const [endDate, setEndDate] = React.useState(null);
+    const [searchCategory, setSearchCategory] = React.useState('');
     const [expandedFilters, setExpandedFilers] = React.useState(false);
     const [openFilterDialog, setOpenFilterDialog] = React.useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
@@ -37,7 +38,7 @@ const Expenses = () => {
         const response = await axios.post(`${apiUrl}/api/expense/search`, {
           offset: page * limit,
           limit: limit,
-          categoryId: null,
+          categoryId: searchCategory,
           overviewText: searchTerm == '' ? null : searchTerm,
           startDate: startDate,
           endDate: endDate,
@@ -114,7 +115,7 @@ const Expenses = () => {
 
     useEffect(() => {
         debouncedFetchData();
-    }, [searchTerm, amountValues, startDate, endDate, page, limit, debouncedFetchData]);
+    }, [searchTerm, amountValues, startDate, endDate, searchCategory, page, limit, debouncedFetchData]);
 
     useEffect(() => {
         setPage(0);
@@ -133,6 +134,7 @@ const Expenses = () => {
         setAmountValues([0, 500]);
         setStartDate(null);
         setEndDate(null);
+        setSearchCategory('');
       }
 
     const handleAmountChange = (event, newValue) => {
@@ -149,6 +151,10 @@ const Expenses = () => {
     const handleEndDateChange = (date) => {
         setEndDate(date);
     };
+
+    const handleSearchCategoryChange = (event) => {
+        setSearchCategory(event.target.value);
+    }
 
     const handleFilterToggle = () => {
         if (isScreenXs)
@@ -247,6 +253,7 @@ const Expenses = () => {
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
                         <SearchFiltersComponent 
+                            categories={categories}
                             expandedFilters={expandedFilters} 
                             onFilterToggle={handleFilterToggle}
                             onSearchTermChange={handleSearchTermChange}
@@ -258,9 +265,12 @@ const Expenses = () => {
                             startDate={startDate}
                             onEndDateChange={handleEndDateChange}
                             endDate={endDate}
+                            searchCategory={searchCategory}
+                            onSearchCategoryChange={handleSearchCategoryChange}
                             clearFilters={clearFilters}
                         />
-                        <SearchFiltersDialogComponent 
+                        <SearchFiltersDialogComponent
+                            categories={categories}
                             open={openFilterDialog} 
                             onClose={handleCloseFilterDialog}
                             onSearchTermChange={handleSearchTermChange}
@@ -272,6 +282,8 @@ const Expenses = () => {
                             startDate={startDate}
                             onEndDateChange={handleEndDateChange}
                             endDate={endDate}
+                            searchCategory={searchCategory}
+                            onSearchCategoryChange={handleSearchCategoryChange}
                             clearFilters={clearFilters}
                         />
                     </Grid>

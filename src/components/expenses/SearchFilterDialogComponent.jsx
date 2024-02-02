@@ -1,10 +1,10 @@
-import { Backdrop, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, InputAdornment, Slider, TextField, Typography } from "@mui/material";
+import { Backdrop, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputAdornment, InputLabel, MenuItem, Select, Slider, TextField, Typography } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import SearchIcon from '@mui/icons-material/Search';
 import { DialogCloseButtonComponent } from "../shared/DialogCloseButtonComponent";
 
-export const SearchFiltersDialogComponent = ({ open, onClose, onSearchTermChange, searchTerm, onAmountChange, amountValues, amountValueText, onStartDateChange, startDate, onEndDateChange, endDate, clearFilters }) => {
+export const SearchFiltersDialogComponent = ({ categories, open, onClose, onSearchTermChange, searchTerm, onAmountChange, amountValues, amountValueText, onStartDateChange, startDate, onEndDateChange, endDate, searchCategory, onSearchCategoryChange, clearFilters }) => {
 
     return (
         <>
@@ -35,6 +35,21 @@ export const SearchFiltersDialogComponent = ({ open, onClose, onSearchTermChange
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker label="To" onChange={onEndDateChange} value={endDate}/>
                         </LocalizationProvider>
+                        <FormControl fullWidth>
+                                <InputLabel>Category</InputLabel>
+                                <Select
+                                    value={searchCategory}
+                                    onChange={onSearchCategoryChange}
+                                    label="Category"
+                                    name="category"
+
+                                >
+                                    <MenuItem value="">None</MenuItem>
+                                    {categories.map((category) => (
+                                        <MenuItem key={category.id} value={category.id}>{category.title}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
                         <Box sx={{ ml: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Typography variant="p">
