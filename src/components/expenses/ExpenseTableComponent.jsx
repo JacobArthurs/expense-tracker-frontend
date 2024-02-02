@@ -1,8 +1,8 @@
-import { Box, Checkbox, CircularProgress, IconButton, Table, TableBody, TableCell, TableFooter, TableHead, TablePagination, TableRow, Tooltip } from "@mui/material";
+import { Box, Checkbox, CircularProgress, IconButton, Table, TableBody, TableCell, TableFooter, TableHead, TablePagination, TableRow, Tooltip, Typography } from "@mui/material";
 import { TablePaginationActions } from "../shared/TablePaginationActionsComponent";
 import EditIcon from '@mui/icons-material/Edit';
 
-export const ExpenseTableComponent = ({ data, totalRows, page, onChangePage, rowsPerPage, onChangeRowsPerPage, selectedRows, onSelectRow, onSelectAll, onEditExpense }) => {
+export const ExpenseTableComponent = ({ data, totalRows, page, onChangePage, rowsPerPage, onChangeRowsPerPage, selectedRows, onSelectRow, onSelectAll, onEditExpense, isScreenXs }) => {
     const rowsInView = data.map(exp => exp.id);
     
     function isRowSelected(id) {
@@ -25,7 +25,7 @@ export const ExpenseTableComponent = ({ data, totalRows, page, onChangePage, row
     }
 
     return (
-        <Table size="small">
+        <Table size="small" sx={{ tableLayout: 'fixed' }}>
             <TableHead>
                 <TableRow>
                     <TableCell padding="checkbox">
@@ -40,11 +40,11 @@ export const ExpenseTableComponent = ({ data, totalRows, page, onChangePage, row
                             />
                         </Tooltip>
                     </TableCell>
-                    <TableCell width='25%'>Title</TableCell>
+                    <TableCell sx={{ width: {xs: '35%', sm: '30%'} }} >Title</TableCell>
                     <TableCell width='20%'>Amount</TableCell>
-                    <TableCell width='20%'>Date</TableCell>
-                    <TableCell width='25%'>Category</TableCell>
-                    <TableCell width='5%'></TableCell>
+                    <TableCell sx={{ width: {xs: '30%', sm: '20%'} }}>Date</TableCell>
+                    <TableCell width='25%' sx={{ display: {xs: 'none', sm: 'table-cell'} }}>Category</TableCell>
+                    <TableCell sx={{ width: {xs: '15%', sm: '10%', md: '5%'} }}></TableCell>
                 </TableRow>
             </TableHead>
           <TableBody>
@@ -59,10 +59,14 @@ export const ExpenseTableComponent = ({ data, totalRows, page, onChangePage, row
                         }} 
                     />
                 </TableCell>
-                <TableCell onClick={() => onSelectRow(expense.id)}>{expense.title}</TableCell>
+                <TableCell onClick={() => onSelectRow(expense.id)} >
+                  <Typography noWrap style={{ overflow: 'hidden', textOverflow: 'ellipsis', fontSize: 14 }}>
+                    {expense.title}
+                  </Typography>
+                </TableCell>
                 <TableCell onClick={() => onSelectRow(expense.id)}>{expense.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</TableCell>
                 <TableCell onClick={() => onSelectRow(expense.id)}>{new Date(expense.createdDate).toLocaleDateString('en-US')}</TableCell>
-                <TableCell onClick={() => onSelectRow(expense.id)}>{expense.category}</TableCell>
+                <TableCell onClick={() => onSelectRow(expense.id)} sx={{ display: {xs: 'none', sm: 'table-cell'} }}>{expense.category}</TableCell>
                 <TableCell onClick={() => onEditExpense(expense.id)}>
                   <Tooltip title='Edit Expense' arrow>
                     <IconButton>
@@ -76,7 +80,7 @@ export const ExpenseTableComponent = ({ data, totalRows, page, onChangePage, row
           <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 20]}
+              rowsPerPageOptions={isScreenXs ? [] : [5, 10, 20]}
               count={totalRows}
               rowsPerPage={rowsPerPage}
               page={page}

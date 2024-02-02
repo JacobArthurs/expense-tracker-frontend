@@ -315,6 +315,7 @@ const Expenses = () => {
                             onSelectRow={handleSelectRow}
                             onSelectAll={handleSelectAll}
                             onEditExpense={handleOpenManageExpenseDialog}
+                            isScreenXs={isScreenXs}
                         />
                         <DeleteDialogComponent
                             open={openDeleteDialog}
