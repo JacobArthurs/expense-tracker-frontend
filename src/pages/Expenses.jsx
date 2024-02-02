@@ -32,6 +32,7 @@ const Expenses = () => {
     const [resultSnackSeverity, setResultSnackSeverity] = React.useState('success');
     const [openManageExepenseDialog, setOpenManageExepenseDialog] = React.useState(false);
     const [manageExpenseId, setManageExpenseId] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
     const { inputStartDate } = useParams();
     const isScreenXs = useMediaQuery((theme) => theme.breakpoints.down('sm'));
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
@@ -53,6 +54,7 @@ const Expenses = () => {
         if (data) {
           setData(data.data);
           setTotal(data.total);
+          setLoading(false);
         }
       } catch (error) {
         console.log(error);
@@ -325,6 +327,7 @@ const Expenses = () => {
                             onSelectAll={handleSelectAll}
                             onEditExpense={handleOpenManageExpenseDialog}
                             isScreenXs={isScreenXs}
+                            loading={loading}
                         />
                         <DeleteDialogComponent
                             open={openDeleteDialog}

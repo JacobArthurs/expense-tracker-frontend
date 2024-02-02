@@ -1,8 +1,9 @@
 import { Box, Checkbox, CircularProgress, IconButton, Table, TableBody, TableCell, TableFooter, TableHead, TablePagination, TableRow, Tooltip, Typography } from "@mui/material";
 import { TablePaginationActions } from "../shared/TablePaginationActionsComponent";
 import EditIcon from '@mui/icons-material/Edit';
+import ClearIcon from '@mui/icons-material/Clear';
 
-export const ExpenseTableComponent = ({ data, totalRows, page, onChangePage, rowsPerPage, onChangeRowsPerPage, selectedRows, onSelectRow, onSelectAll, onEditExpense, isScreenXs }) => {
+export const ExpenseTableComponent = ({ data, totalRows, page, onChangePage, rowsPerPage, onChangeRowsPerPage, selectedRows, onSelectRow, onSelectAll, onEditExpense, isScreenXs, loading }) => {
     const rowsInView = data.map(exp => exp.id);
     
     function isRowSelected(id) {
@@ -10,7 +11,7 @@ export const ExpenseTableComponent = ({ data, totalRows, page, onChangePage, row
       return index !== -1;
     }
 
-    if (!data.length) {
+    if (loading) {
       return (
           <Box sx={{ 
               width: '100%', 
@@ -22,6 +23,26 @@ export const ExpenseTableComponent = ({ data, totalRows, page, onChangePage, row
               <CircularProgress />
           </Box>
       );
+    }
+    else if (!data.length) {
+      return (
+        <Box
+          textAlign="center"
+          p={4}
+          sx={{ 
+            width: '100%', 
+            height: '100%'
+          }}
+        >
+            <Typography variant="h5" color="textSecondary" mt={2}>
+              No results found.
+            </Typography>
+            <ClearIcon sx={{ mt: 2, fontSize: 100 }}/>
+            <Typography variant="body1" color="textSecondary" my={2}>
+              Try searching with different filters or criteria.
+            </Typography>
+        </Box>
+    );
     }
 
     return (
