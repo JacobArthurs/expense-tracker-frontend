@@ -4,7 +4,8 @@ import Box from '@mui/material/Box';
 import { ToolbarComponent } from './ToolbarComponent';
 import { SidebarComponent } from './SidebarComponent';
 import { FooterComponent } from './FooterComponent';
-import { useThemeManagment } from '../../providers/ThemeManagmentProvider';
+import { useThemeManagment } from '../../hooks/useThemeManagement';
+
 
 export const NavigationComponent = ({ children }) => {
     const { darkMode, handleToggleDarkMode, theme } = useThemeManagment();

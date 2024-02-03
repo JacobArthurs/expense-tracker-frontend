@@ -1,14 +1,16 @@
 import React from 'react';
 import axios from 'axios';
-import { useAuth } from "../providers/AuthProvider";
+
 import { useNavigate } from 'react-router';
 import { Button, Grid, TextField, Typography, Box, useTheme, Tooltip, IconButton, Alert } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { Link } from 'react-router-dom';
 import { FooterComponent } from '../components/navigation/FooterComponent';
-import { useThemeManagment } from '../providers/ThemeManagmentProvider';
+
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import { useThemeManagment } from '../hooks/useThemeManagement';
+import { useAuth } from '../hooks/useAuth';
 
 const Register = () => {
     const { setToken } = useAuth();

@@ -1,9 +1,9 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useState } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-const ThemeManagmentContext = createContext();
+export const ThemeManagmentContext = createContext();
 
-export const ThemeManagmentProvider = ({ children }) => {
+const ThemeManagmentProvider = ({ children }) => {
   const [darkMode, setDarkMode] = useState(true);
 
   const handleToggleDarkMode = () => {
@@ -31,6 +31,4 @@ export const ThemeManagmentProvider = ({ children }) => {
   );
 };
 
-export const useThemeManagment = () => {
-  return useContext(ThemeManagmentContext);
-};
+export default ThemeManagmentProvider;

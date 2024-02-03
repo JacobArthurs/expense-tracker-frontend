@@ -10,7 +10,8 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { ListItemIcon, Menu, MenuItem } from '@mui/material';
-import { useAuth } from '../../providers/AuthProvider';
+import { useAuth } from '../../hooks/useAuth';
+
 
 const drawerWidth = 240;
 
