@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
 
@@ -18,6 +19,23 @@ const AuthProvider = ({ children }) => {
       delete axios.defaults.headers.common["Authorization"];
       localStorage.removeItem('token')
     }
+  }, [token]);
+
+  useEffect(() => {
+    const checkTokenExpiration = () => {
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+
+        if (decodedToken.exp < currentTime) {
+          setToken(null);
+        }
+      }
+    };
+
+    const expirationCheckTimer = setInterval(checkTokenExpiration, 300000);
+    return () => clearInterval(expirationCheckTimer);
+
   }, [token]);
 
   const contextValue = useMemo(
