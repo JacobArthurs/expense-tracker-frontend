@@ -30,12 +30,9 @@ export const CurrentExpenseAmount = () => {
 
         setTotalAmount(currentTotal);
         if (previousMonthTotal) {
-          console.log(((currentTotal - previousMonthTotal) / previousMonthTotal) * 100);
           setDifference(Math.round(((currentTotal - previousMonthTotal) / previousMonthTotal) * 100))
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) { /* empty */ }
     };
 
     fetchData();
