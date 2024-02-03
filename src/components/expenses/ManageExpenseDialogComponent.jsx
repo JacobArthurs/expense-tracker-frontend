@@ -218,7 +218,7 @@ export const ManageExpenseDialogComponent = ({ id, categories, open, onClose, on
                     </FormControl>
                 </Box>
             </DialogContent>
-            <DialogActions sx={{ pb: 1 }}>
+            <DialogActions sx={{ pb: 2 }}>
                 <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
                 <Button onClick={onSubmit} color="primary" variant="contained" sx={{ mr: 2 }}>{id ? 'Edit' : 'Create'}</Button>
             </DialogActions>

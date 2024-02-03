@@ -82,26 +82,26 @@ export const SearchFiltersDialogComponent = ({ categories, open, onClose, onSear
                                 />
                             </Box>
                         </Box>
-                        <DialogActions>
-                        <Button 
-                                fullWidth
-                                variant="outlined"
-                                color="error"
-                                onClick={clearFilters}
-                            >
-                                Clear
-                            </Button>
-                            <Button 
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                onClick={onClose}
-                            >
-                                Search
-                            </Button>
-                        </DialogActions>
                     </Box>
                 </DialogContent>
+                <DialogActions sx={{ p:2 }}>
+                    <Button 
+                        fullWidth
+                        variant="outlined"
+                        color="error"
+                        onClick={clearFilters}
+                    >
+                        Clear
+                    </Button>
+                    <Button 
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        onClick={onClose}
+                    >
+                        Search
+                    </Button>
+                </DialogActions>
             </Dialog>
             <Backdrop
               sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
