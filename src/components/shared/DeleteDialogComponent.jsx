@@ -1,6 +1,6 @@
 import { Backdrop, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material"
 
-export const DeleteDialogComponent = ({ open, onClose, onDelete, type, pluralType, count }) => {
+export const DeleteDialogComponent = ({ open, onClose, onDelete, type, pluralType, count, message }) => {
     return (
         <>
             <Dialog open={open} onClose={onClose}>
@@ -12,6 +12,7 @@ export const DeleteDialogComponent = ({ open, onClose, onDelete, type, pluralTyp
                     : 
                         `Are you sure you want to delete this ${type}?`
                     }
+                    &nbsp;{message}
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
