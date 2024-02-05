@@ -216,7 +216,7 @@ const Register = () => {
               variant="contained"
               sx={{ my: 3 }}
             >
-              Log In
+              Register
             </Button>
             <Grid container sx={{mt: 1, mb: 3}}>
             <Grid item>
