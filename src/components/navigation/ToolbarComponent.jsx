@@ -9,7 +9,7 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { ListItemIcon, Menu, MenuItem } from '@mui/material';
+import { Box, ListItemIcon, Menu, MenuItem, useTheme } from '@mui/material';
 import { useAuth } from '../../hooks/useAuth';
 
 
@@ -18,6 +18,7 @@ const drawerWidth = 240;
 export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkMode }) => {
   const { setToken } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const theme = useTheme();
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -53,30 +54,43 @@ export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkM
       <Toolbar
         sx={{
           display: 'flex',
-          justifyContent: 'space-between',
           alignItems: 'center',
         }}
+        disableGutters
       >
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          onClick={onToggleDrawer}
-          edge="start"
+        <Box 
           sx={{
-            marginRight: 5,
-            ...(open && { visibility: 'hidden' }),
-          }}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Link to="/" style={{ display: 'inline-block' }}>
-          <img src="/src/assets/favicon-32x32.png" alt='Expense Tracker' style={{ display: 'block' }} />
-        </Link>
-        <Tooltip title="Settings" arrow>
-            <IconButton onClick={handleMenuOpen} color="inherit">
-              <SettingsIcon />
+            display: open ? 'none' : 'flex',
+            justifyContent: 'center',
+            width: `calc(${theme.spacing(7)} + 1px)`,
+            [theme.breakpoints.up('sm')]: {
+              width: `calc(${theme.spacing(8)} + 1px)`,
+            },
+          }}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={onToggleDrawer}
+              edge="start"
+              sx={{
+                ml: 0
+              }}
+            >
+              <MenuIcon />
             </IconButton>
-        </Tooltip>
+        </Box>
+        <Box  sx={{ display: 'flex', justifyContent: 'space-between', flexGrow: 1 }}>
+          <Box width={48}></Box>
+        <Link to="/" style={{ display: 'inline-block' }}>
+          <img src="/src/assets/favicon-192x192.png" alt='Expense Tracker' style={{ display: 'block', width: '48px', height: '48px' }}/>
+        </Link>
+        <Box sx={{ display:'flex', justifyContent: 'center', width: 48 }}>
+          <Tooltip title="Settings" arrow>
+              <IconButton onClick={handleMenuOpen} color="inherit">
+                <SettingsIcon />
+              </IconButton>
+          </Tooltip>
+        </Box>
         <Menu
           id="user-menu"
           anchorEl={anchorEl}
@@ -97,6 +111,7 @@ export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkM
             Logout
           </MenuItem>
         </Menu>
+        </Box>
       </Toolbar>
     </AppBar>
   )
