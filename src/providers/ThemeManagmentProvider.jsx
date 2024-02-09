@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 export const ThemeManagmentContext = createContext();
@@ -6,7 +6,14 @@ export const ThemeManagmentContext = createContext();
 const ThemeManagmentProvider = ({ children }) => {
   const [darkMode, setDarkMode] = useState(true);
 
+  useEffect(()=>{
+    if (localStorage.getItem("mode")) {
+      setDarkMode(localStorage.getItem("mode") === 'dark')
+    }
+  },[])
+
   const handleToggleDarkMode = () => {
+    localStorage.setItem("mode", !darkMode ? 'dark' : 'light' )
     setDarkMode(!darkMode);
   };
 
