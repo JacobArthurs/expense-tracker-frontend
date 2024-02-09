@@ -1,7 +1,21 @@
-import { Box, FormControl, InputLabel, MenuItem, Paper, Select, Typography } from "@mui/material";
+import { Box, CircularProgress, FormControl, InputLabel, MenuItem, Paper, Select, Typography } from "@mui/material";
 import { PieChart } from "@mui/x-charts";
 
 export const DistributionChartComponent = ({ title, data, colors, selectBox, monthCount, onMonthCountChange }) => {
+
+    if (!data.length) {
+        return (
+            <Box sx={{ 
+                width: '100%', 
+                height: '100%', 
+                display: 'flex', 
+                justifyContent: 'center', 
+                alignItems: 'center' }}
+            >
+                <CircularProgress />
+            </Box>
+        );
+    }
 
     return (
         <Paper sx={{ display: 'flex',  flexDirection: 'column', p:2 }}>

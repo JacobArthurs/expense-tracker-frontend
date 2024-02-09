@@ -92,7 +92,7 @@ const Distributions = () => {
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
             <DistributionChartComponent 
-              title={"Expected Distribution"}
+              title={"Expected Distributions"}
               data={distributionPieData}
               colors={colors}
               selectBox={false}
@@ -100,7 +100,7 @@ const Distributions = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <DistributionChartComponent 
-              title={"Current Distribution"}
+              title={"Current Distributions"}
               data={currentDistributionPieData}
               colors={colors}
               selectBox={true}

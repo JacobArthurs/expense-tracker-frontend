@@ -1,4 +1,4 @@
-import { Avatar, Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Avatar, Box, Button, CircularProgress, Paper, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import axios from "axios";
@@ -69,6 +69,20 @@ export const DistributionTableComponent = ({ expectedData, currentData, colors, 
         }
     }
 
+    if (!expectedData.length || !currentData.length) {
+        return (
+            <Box sx={{ 
+                width: '100%', 
+                height: '100%', 
+                display: 'flex', 
+                justifyContent: 'center', 
+                alignItems: 'center' }}
+            >
+                <CircularProgress />
+            </Box>
+        );
+    }
+
     return (
         <Paper sx={{ p:2 }}>
             <Table size="small" sx={{ tableLayout: 'fixed' }}>
@@ -93,11 +107,11 @@ export const DistributionTableComponent = ({ expectedData, currentData, colors, 
                                 <Typography variant="body2">{editMode ? 'Save' : 'Edit'}</Typography>
                             </Button>
                         </TableCell>
-                        <TableCell align="center" width="20%" sx={{ borderLeft: 1, borderColor: borderColor }}>
-                            <Typography variant={isScreenXs ? 'body2' : 'h6'}>Current</Typography>
-                        </TableCell>
-                        <TableCell align="center" width="20%">
+                        <TableCell align="center" width="20%" sx={{ px:0, borderLeft: 1, borderColor: borderColor }}>
                             <Typography variant={isScreenXs ? 'body2' : 'h6'}>Expected</Typography>
+                        </TableCell>
+                        <TableCell align="center" width="20%" sx={{ px:0 }}>
+                            <Typography variant={isScreenXs ? 'body2' : 'h6'}>Current</Typography>
                         </TableCell>
                     </TableRow>
                 </TableHead>
@@ -108,14 +122,11 @@ export const DistributionTableComponent = ({ expectedData, currentData, colors, 
                                 <Avatar sx={{ bgcolor: colors[index], width: 24, height: 24, mr: 1 }}>&nbsp;</Avatar>
                                 <Typography>{distribution.category}</Typography>
                             </TableCell>
-                            <TableCell align="center" sx={{ borderLeft: 1, borderColor: borderColor }}>
-                                <Typography>{currentData[index].distribution}%</Typography>
-                            </TableCell>
-                            <TableCell align="center" sx={{ px:.5}}>
+                            <TableCell align="center" sx={{ px:.5, borderLeft: 1, borderColor: borderColor }}>
                                 {editMode ? 
                                     <NumericFormat
                                       sx={{ 
-                                        width: {xs: '100%', sm: '50%'}, 
+                                        width: {xs: '100%', md: '50%'}, 
                                         "& .MuiInputBase-root" : {
                                             height: 24
                                         } 
@@ -135,6 +146,9 @@ export const DistributionTableComponent = ({ expectedData, currentData, colors, 
                                 : 
                                     <Typography>{distribution.distribution}%</Typography>
                                 }
+                            </TableCell>
+                            <TableCell align="center">
+                                <Typography>{currentData[index].distribution}%</Typography>
                             </TableCell>
                         </TableRow>
                     ))}
