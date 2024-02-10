@@ -8,10 +8,11 @@ import NotFound from '../pages/NotFound'
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import { NavigationComponent } from '../components/navigation/NavigationComponent';
+import Landing from '../pages/Landing';
 
 export const AppRoutes = () => {
   const authenticatedRoutes = [
-    { path: "/", element: <Dashboard /> },
+    { path: "/dashboard", element: <Dashboard /> },
     { path: "/categories", element: <Categories /> },
     { path: "/expenses/:inputStartDate?", element: <Expenses /> },
     { path: "/distributions", element: <Distributions /> },
@@ -20,6 +21,7 @@ export const AppRoutes = () => {
   ];
   
   const notAuthenticatedRoutes = [
+    { path: "/", element: <Landing /> },
     { path: "/login", element: <Login /> },
     { path: "/register", element: <Register /> },
   ];
