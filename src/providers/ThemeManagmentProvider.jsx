@@ -4,7 +4,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 export const ThemeManagmentContext = createContext();
 
 const ThemeManagmentProvider = ({ children }) => {
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(()=>{
     if (localStorage.getItem("mode")) {
@@ -27,6 +27,11 @@ const ThemeManagmentProvider = ({ children }) => {
         main: '#60E1E0',
       },
     },
+    typography: {
+      button: {
+        textTransform: 'none'
+      }
+    }
   });
 
   return (
