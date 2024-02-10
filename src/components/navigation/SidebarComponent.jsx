@@ -19,7 +19,7 @@ import PieChartIcon from '@mui/icons-material/PieChart';
 const drawerWidth = 240;
 
 const menuItems = [
-  { key: 'dashboard', to: '/', icon: <DashboardIcon />, text: 'Dashboard' },
+  { key: 'dashboard', to: '/dashboard', icon: <DashboardIcon />, text: 'Dashboard' },
   { key: 'expenses', to: '/expenses', icon: <AttachMoneyIcon />, text: 'Expenses' },
   { key: 'categories', to: '/categories', icon: <CategoryIcon />, text: 'Categories' },
   { key: 'distributions', to: '/distributions', icon: <PieChartIcon />, text: 'Distributions' },

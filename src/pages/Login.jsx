@@ -60,7 +60,7 @@ const Login = () => {
         if (token) {
             setToken(token);
             setTimeout(() => {
-                navigate('/');
+                navigate('/dashboard');
               });
         }
     } catch (error) {

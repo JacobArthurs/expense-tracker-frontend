@@ -1,7 +1,7 @@
 import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -19,6 +19,7 @@ export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkM
   const { setToken } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -29,6 +30,7 @@ export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkM
   };
 
   const handleLogout = () => {
+    navigate('/');
     setToken();
   }
 
@@ -81,7 +83,7 @@ export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkM
         </Box>
         <Box  sx={{ display: 'flex', justifyContent: 'space-between', flexGrow: 1 }}>
           <Box width={48}></Box>
-        <Link to="/" style={{ display: 'inline-block' }}>
+        <Link to="/dashboard" style={{ display: 'inline-block' }}>
           <img src="/src/assets/favicon-192x192.png" alt='Expense Tracker' style={{ display: 'block', width: '48px', height: '48px' }}/>
         </Link>
         <Box sx={{ display:'flex', justifyContent: 'center', width: 48 }}>

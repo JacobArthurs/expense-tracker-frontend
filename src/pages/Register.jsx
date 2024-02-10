@@ -97,7 +97,7 @@ const Register = () => {
 
             if (token) {
                 setToken(token);
-                navigate('/');
+                navigate('/dashboard');
             }
         }
         else {
