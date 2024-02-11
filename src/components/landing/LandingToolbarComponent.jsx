@@ -1,20 +1,32 @@
-import { AppBar, Box, Button, Container, IconButton, Toolbar, Tooltip, Typography } from "@mui/material";
+import { AppBar, Box, Button, Container, IconButton, ListItemIcon, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { useThemeManagment } from "../../hooks/useThemeManagement";
-import { useTheme } from "@emotion/react";
+import MenuIcon from '@mui/icons-material/Menu';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import LoginIcon from '@mui/icons-material/Login';
+import React from "react";
 
 export const LandingToolbarComponent = () => {
+    const [anchorEl, setAnchorEl] = React.useState(null);
     const { darkMode, handleToggleDarkMode } = useThemeManagment();
-    const theme = useTheme();
+
+    const handleMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
+    
+      const handleMenuClose = () => {
+        setAnchorEl(null);
+      };
+
 
     return (
-        <AppBar position="fixed" sx={{ bgcolor: darkMode ? null : theme.palette.common.white}}>
+        <AppBar position="fixed" sx={{ bgcolor: darkMode ? null : 'white'}}>
             <Toolbar>
                 <Container maxWidth="lg" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <img src="/src/assets/favicon-192x192.png" alt='Expense Tracker' style={{ display: 'block', width: '48px', height: '48px' }}/>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap:2}}>
+                    <Box sx={{ display: {xs: 'none', md: 'flex' }, alignItems: 'center', gap:2}}>
                         <Button
                             component={Link}
                             to="/login"
@@ -35,6 +47,35 @@ export const LandingToolbarComponent = () => {
                             </IconButton>
                         </Tooltip>
                     </Box>
+                    <Tooltip title="Settings" arrow>
+                        <IconButton onClick={handleMenuOpen} sx={{ display: {xs: 'flex', md: 'none' } }}>
+                            <MenuIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Menu
+                      anchorEl={anchorEl}
+                      open={Boolean(anchorEl)}
+                      onClose={handleMenuClose}
+                    >
+                      <MenuItem onClick={handleToggleDarkMode}>
+                        <ListItemIcon>
+                          {darkMode ? <DarkModeIcon /> : <LightModeIcon />}
+                        </ListItemIcon>
+                        {darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                      </MenuItem>
+                      <MenuItem component={Link} to="/login">
+                        <ListItemIcon>
+                          <LoginIcon />
+                        </ListItemIcon>
+                        Login
+                      </MenuItem>
+                      <MenuItem component={Link} to="/register">
+                        <ListItemIcon>
+                          <PersonAddIcon />
+                        </ListItemIcon>
+                        Register
+                      </MenuItem>
+                    </Menu>
                 </Container>
             </Toolbar>
         </AppBar>
