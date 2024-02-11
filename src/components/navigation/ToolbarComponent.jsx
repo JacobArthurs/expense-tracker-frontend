@@ -38,6 +38,7 @@ export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkM
     <AppBar
       position="fixed"
       sx={{
+        bgcolor: darkMode ? null : 'white',
         zIndex: (theme) => theme.zIndex.drawer + 1,
         transition: (theme) => theme.transitions.create(['width', 'margin'], {
           easing: theme.transitions.easing.sharp,
@@ -70,7 +71,6 @@ export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkM
             },
           }}>
             <IconButton
-              color="inherit"
               aria-label="open drawer"
               onClick={onToggleDrawer}
               edge="start"
@@ -81,38 +81,36 @@ export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkM
               <MenuIcon />
             </IconButton>
         </Box>
-        <Box  sx={{ display: 'flex', justifyContent: 'space-between', flexGrow: 1 }}>
-          <Box width={48}></Box>
-        <Link to="/dashboard" style={{ display: 'inline-block' }}>
-          <img src="/src/assets/favicon-192x192.png" alt='Expense Tracker' style={{ display: 'block', width: '48px', height: '48px' }}/>
-        </Link>
-        <Box sx={{ display:'flex', justifyContent: 'center', width: 48 }}>
-          <Tooltip title="Settings" arrow>
-              <IconButton onClick={handleMenuOpen} color="inherit">
-                <SettingsIcon />
-              </IconButton>
-          </Tooltip>
-        </Box>
-        <Menu
-          id="user-menu"
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleMenuClose}
-
-        >
-          <MenuItem onClick={onToggleDarkMode}>
-            <ListItemIcon>
-              {darkMode ? <DarkModeIcon /> : <LightModeIcon />}
-            </ListItemIcon>
-            {darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-          </MenuItem>
-          <MenuItem onClick={handleLogout}>
-            <ListItemIcon>
-              <LogoutIcon />
-            </ListItemIcon>
-            Logout
-          </MenuItem>
-        </Menu>
+        <Box  sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexGrow: 1 }}>
+          <Box width={48} ml={1}></Box>
+          <Link to="/dashboard" style={{ display: 'inline-block' }}>
+            <img src="/src/assets/favicon-192x192.png" alt='Expense Tracker' style={{ display: 'block', width: '48px', height: '48px' }}/>
+          </Link>
+          <Box sx={{ display:'flex', justifyContent: 'center', width: 48, height: 'fit-content', mr:1 }}>
+            <Tooltip title="Settings" arrow>
+                <IconButton onClick={handleMenuOpen}>
+                  <SettingsIcon />
+                </IconButton>
+            </Tooltip>
+          </Box>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+          >
+            <MenuItem onClick={onToggleDarkMode}>
+              <ListItemIcon>
+                {darkMode ? <DarkModeIcon /> : <LightModeIcon />}
+              </ListItemIcon>
+              {darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            </MenuItem>
+            <MenuItem onClick={handleLogout}>
+              <ListItemIcon>
+                <LogoutIcon />
+              </ListItemIcon>
+              Logout
+            </MenuItem>
+          </Menu>
         </Box>
       </Toolbar>
     </AppBar>
