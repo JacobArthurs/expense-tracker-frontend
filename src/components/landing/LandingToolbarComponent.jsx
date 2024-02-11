@@ -2,15 +2,13 @@ import { AppBar, Box, Button, Container, IconButton, ListItemIcon, Menu, MenuIte
 import { Link } from "react-router-dom";
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
-import { useThemeManagment } from "../../hooks/useThemeManagement";
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import LoginIcon from '@mui/icons-material/Login';
 import React from "react";
 
-export const LandingToolbarComponent = () => {
+export const LandingToolbarComponent = ({ darkMode, onToggleDarkMode }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const { darkMode, handleToggleDarkMode } = useThemeManagment();
 
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -42,7 +40,7 @@ export const LandingToolbarComponent = () => {
                             <Typography variant="body1">Register</Typography>
                         </Button>
                         <Tooltip title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'} arrow>
-                            <IconButton onClick={handleToggleDarkMode}>
+                            <IconButton onClick={onToggleDarkMode}>
                                 {darkMode ? <DarkModeIcon /> : <LightModeIcon />}
                             </IconButton>
                         </Tooltip>
@@ -57,7 +55,7 @@ export const LandingToolbarComponent = () => {
                       open={Boolean(anchorEl)}
                       onClose={handleMenuClose}
                     >
-                      <MenuItem onClick={handleToggleDarkMode}>
+                      <MenuItem onClick={onToggleDarkMode}>
                         <ListItemIcon>
                           {darkMode ? <DarkModeIcon /> : <LightModeIcon />}
                         </ListItemIcon>
