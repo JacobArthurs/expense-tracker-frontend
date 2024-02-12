@@ -16,8 +16,8 @@ export const DeleteDialogComponent = ({ open, onClose, onDelete, type, pluralTyp
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={onClose}>Cancel</Button>
-                  <Button onClick={onDelete} color="error">Delete</Button>
+                  <Button onClick={onClose} variant="outlined">Cancel</Button>
+                  <Button onClick={onDelete} color="error" variant="contained">Delete</Button>
                 </DialogActions>
             </Dialog>
             <Backdrop

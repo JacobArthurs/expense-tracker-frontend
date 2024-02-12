@@ -35,7 +35,7 @@ export const FooterComponent = () => {
             marginTop: '16px',
           }}
         >
-            <Typography variant="body2" color="textSecondary">
+            <Typography variant="body1" color="textSecondary">
                 © {new Date().getFullYear()} Jacob Arthurs. All Rights Reserved.
             </Typography>
             <Button variant="text" color='secondary' onClick={handleOpenTermsDialog}>

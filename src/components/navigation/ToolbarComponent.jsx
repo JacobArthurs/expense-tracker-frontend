@@ -65,10 +65,7 @@ export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkM
           sx={{
             display: open ? 'none' : 'flex',
             justifyContent: 'center',
-            width: `calc(${theme.spacing(7)} + 1px)`,
-            [theme.breakpoints.up('sm')]: {
-              width: `calc(${theme.spacing(8)} + 1px)`,
-            },
+            width: {xs: `calc(${theme.spacing(7)} + 1px)`, sm: `calc(${theme.spacing(8)} + 1px)`},
           }}>
             <IconButton
               aria-label="open drawer"
@@ -82,7 +79,7 @@ export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkM
             </IconButton>
         </Box>
         <Box  sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexGrow: 1 }}>
-          <Box width={48} ml={1}></Box>
+          <Box sx={{ width: {xs: 0, sm: 48}, ml: {xs: 0, sm: 1} }}></Box>
           <Link to="/dashboard" style={{ display: 'inline-block' }}>
             <img src="/src/assets/favicon-192x192.png" alt='Expense Tracker' style={{ display: 'block', width: '48px', height: '48px' }}/>
           </Link>

@@ -40,10 +40,7 @@ const closedMixin = (theme) => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
+  width: {xs: 0, sm: `calc(${theme.spacing(8)} + 1px)`},
 });
 
 export const SidebarComponent = ({ open, onToggleDrawer }) => {
@@ -61,7 +58,7 @@ export const SidebarComponent = ({ open, onToggleDrawer }) => {
       open={open}
       sx={{
         width: drawerWidth,
-        flexShrink: {xs: open ? 1 : 0, sm:0},
+        flexShrink: {xs: 1, sm:0},
         whiteSpace: 'nowrap',
         boxSizing: 'border-box',
         ...(open ? openedMixin(theme) : closedMixin(theme)),
@@ -86,7 +83,7 @@ export const SidebarComponent = ({ open, onToggleDrawer }) => {
       <List>
         {menuItems.map((item) => (
           <Tooltip title={item.text} key={item.key} arrow placement="right" disableHoverListener={open}>
-            <ListItem key={item.key} disablePadding sx={{ display: 'block' }}>
+            <ListItem key={item.key} disablePadding sx={{ display: 'block' }} onClick={open ? onToggleDrawer : null}>
               <Link to={item.to} style={{ color: 'inherit', textDecoration: 'none' }}>
                 <ListItemButton
                   sx={{
