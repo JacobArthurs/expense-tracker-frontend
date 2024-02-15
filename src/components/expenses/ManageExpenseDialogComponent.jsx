@@ -1,227 +1,160 @@
-import { Alert, Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-import axios from "axios";
-import React, { useEffect } from "react";
-import { NumericFormat } from "react-number-format";
+import { useEffect, useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { Dialog, DialogContent, DialogTitle, TextField, FormControl, InputLabel, Select, MenuItem, FormHelperText, Box, Button, CircularProgress, Alert } from '@mui/material';
+import axios from 'axios';
+import { NumericFormat } from 'react-number-format';
 
 
 export const ManageExpenseDialogComponent = ({ id, categories, open, onClose, onOpenResultSnack, onResultSnackMessageChange, onResultSnackSeverityChange }) => {
-    const [loading, setLoading] = React.useState(true);
-    const [error, setError] = React.useState('');
-    const [formData, setFormData] = React.useState({
-        title: '',
-        description: '',
-        amount: null,
-        category: null
-    });
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+  const [loading, setLoading] = useState(!!id);
+  const [error, setError] = useState('');
+  
+  const { register, handleSubmit, setValue, control, reset, formState: { errors } } = useForm({
+    defaultValues: {
+      title: '',
+      description: '',
+      amount: null,
+      category: ''
+    }
+  });
+  
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await axios.get(`${apiUrl}/api/expense/${id}`);  
-      
-            const data = response.data;
-            if (data) {
-                setLoading(false);
-                setFormData({
-                    title: data.title,
-                    description: data.description,
-                    amount: data.amount,
-                    category: data.categoryId
-                })
-            }
-          } catch (error) {
-            console.log(error);
-          }
-        };
+  useEffect(() => {
+    if (!id) return;
+    setLoading(true);
+    axios.get(`${apiUrl}/api/expense/${id}`)
+      .then(response => {
+        const { title, description, amount, categoryId } = response.data;
+        setValue('title', title);
+        setValue('description', description);
+        setValue('amount', amount);
+        setValue('category', categoryId);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error(error);
+        setError('Failed to load data');
+        setLoading(false);
+      });
+  }, [id, apiUrl, setValue]);
 
-        if (id) {
-          fetchData();
-        }
-    }, [apiUrl, id]);
-
-    const updateExpense = async () => {
-        try {
-            const response = await axios.put(`${apiUrl}/api/expense/${id}`, {
-                categoryId: formData.category,
-                title: formData.title,
-                description: formData.description,
-                amount: formData.amount
-          });
+  const onSubmit = async (data) => {
+    const endpoint = `${apiUrl}/api/expense${id ? `/${id}` : ''}`;
+    const method = id ? 'put' : 'post';
     
-           const data = response.data;     
-           if (data) {
-            if (data.success) {
-                onClose();
-                onOpenResultSnack();
-                onResultSnackMessageChange(data.message);
-                onResultSnackSeverityChange('success');
-            }
-            else {
-                setError(data.message);
-            }
-           }
-        } catch (error) {
-            setError('There was an error processing your request. Please try again.');
-            console.log(error);
-        }
-    };
-
-    const createExpense = async () => {
-        try {
-            const response = await axios.post(`${apiUrl}/api/expense`, {
-                categoryId: formData.category,
-                title: formData.title,
-                description: formData.description,
-                amount: formData.amount
-            });
-    
-           const data = response.data;     
-           if (data) {
-            if (data.success) {
-                onClose();
-                onOpenResultSnack();
-                onResultSnackMessageChange(data.message);
-                onResultSnackSeverityChange('success');
-            }
-            else {
-                setError(data.message);
-            }
-           }
-        } catch (error) {
-            setError('There was an error processing your request. Please try again.');
-            console.log(error);
-        }
-    };
-
-    const validateForm = () => {
-        setError('');
-        const validationErrors = [];
-
-        if (formData.title.trim() === '') {
-          validationErrors.push('Title is required');
-        }
-
-        if (formData.description.trim() === '') {
-          validationErrors.push('Description is required');
-        }
-
-        if (!formData.amount || formData.amount === 0) {
-            validationErrors.push('Amount is required');
-        }
-
-        if (!formData.category || formData.category === 0) {
-            validationErrors.push('Category is required');
-        }
-
-        if (validationErrors.length > 0) {
-          setError(validationErrors.join(', '));
-        }
+    try {
+      const response = await axios[method](endpoint, {
+        ...data,
+        categoryId: data.category,
+      });
+      onClose();
+      onOpenResultSnack();
+      onResultSnackMessageChange(response.data.message);
+      onResultSnackSeverityChange('success');
+    } catch (error) {
+      console.error(error);
+      setError('There was an error processing your request. Please try again.');
     }
+  };
 
-    const onSubmit = () => {
-        validateForm();
+  const handleClose = () => {
+    onClose();
+    reset();
+  };
 
-        if (error) {
-            return;
-        }
-
-        if (id) {
-            updateExpense();
-        }
-        else {
-            createExpense();
-        }
+    if (loading) {
+      return (
+        <Dialog open={open} onClose={handleClose}>
+          <DialogContent sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <CircularProgress />
+          </DialogContent>
+        </Dialog>
+      );
     }
-
-    const handleChange = (event) => {
-        const name = event.target.name;
-        const value = name === 'amount' ? 
-            parseFloat(event.target.value.replace("$", "")) : 
-            event.target.value;
-
-        setFormData({
-            ...formData,
-            [name]: value,
-          });
-    };
-
-    const handleClose = () => {
-        onClose();
-        setFormData({
-            title: '',
-            description: '',
-            amount: null,
-            category: null
-        })
-    }
-
-    if ((id && loading) || !categories) {
-        return (
-            <Dialog open={open} onClose={onClose}>
-                <DialogContent sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <CircularProgress />
-                </DialogContent>
-            </Dialog>
-        );
-      }
 
 
     return (
-        <Dialog open={open} onClose={handleClose} fullWidth>
-            <DialogTitle>
-                <Box sx={{display: error == '' ? 'flex' : 'none' }}>{id ? 'Edit Expense' : 'Create Expense'}</Box>
-                <Alert severity="error" sx={{ width: '100%', display: error == '' ? 'none' : 'flex' }}>{error}</Alert>
-            </DialogTitle>
-            <DialogContent>
-                <Box component="form" sx={{display: 'flex', flexDirection:'column', gap: 2, pt:1}}>
-                    <TextField 
-                        value={formData.title}
-                        onChange={handleChange}
-                        label="Title"
-                        name="title"
-                        autoComplete='off'
-                        required
-                    />
-                    <TextField
-                        value={formData.description}
-                        onChange={handleChange}
-                        label="Description"
-                        name="description"
-                        autoComplete='off'
-                        required
-                    />
-                    <NumericFormat
-                        value={formData.amount}
-                        onChange={handleChange}
-                        label="Amount"
-                        name="amount"
-                        required
-                        customInput={TextField}
-                        prefix="$"
-                        decimalScale={2}
-                        thousandSeparator
-                    />
-                    <FormControl fullWidth required>
-                        <InputLabel>Category</InputLabel>
-                        <Select
-                          value={formData.category}
-                          onChange={handleChange}
-                          label="Category"
-                          name="category"
-
-                        >
-                            {categories.map((category) => (
-                                <MenuItem key={category.id} value={category.id}>{category.title}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Box>
-            </DialogContent>
-            <DialogActions sx={{ pb: 2 }}>
-                <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
-                <Button onClick={onSubmit} color="primary" variant="contained" sx={{ mr: 2 }}>{id ? 'Edit' : 'Create'}</Button>
-            </DialogActions>
-        </Dialog>
+      <Dialog open={open} onClose={handleClose} fullWidth>
+        <DialogTitle>
+          {error ? <Alert severity="error">{error}</Alert> : (id ? 'Edit Expense' : 'Create Expense')}
+        </DialogTitle>
+        <DialogContent>
+          <Box component="form" id="form" onSubmit={handleSubmit(onSubmit)} sx={{display: 'flex', flexDirection:'column', gap: 2, pt:1}}>
+            <TextField 
+              {...register('title', { required: 'This field is required' })}
+              label="Title"
+              error={!!errors.title}
+              helperText={errors.title?.message}
+            />
+            <TextField 
+              {...register('description', { required: 'This field is required' })}
+              label="Description"
+              error={!!errors.description}
+              helperText={errors.description?.message}
+            />
+            <Controller
+              name="amount"
+              control={control}
+              rules={{ required: 'This field is required' }}
+              render={({ field }) => (
+                <NumericFormat
+                  {...field}
+                  ref={null}
+                  label="Amount"
+                  customInput={TextField}
+                  error={!!errors.amount}
+                  helperText={errors.amount?.message}
+                  prefix="$"
+                  decimalScale={2}
+                  thousandSeparator
+                  onValueChange={(values) => {
+                    field.onChange(values.value);
+                  }}
+                  onChange={(e) => {
+                    e.preventDefault();
+                  }}
+                />
+              )}
+            />
+            <FormControl error={!!errors.category}>
+              <InputLabel>Category</InputLabel>
+              <Controller
+                name="category"
+                control={control}
+                rules={{ required: 'This field is required' }}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    label="Category"
+                  >
+                    {categories.map((category) => (
+                      <MenuItem key={category.id} value={category.id}>{category.title}</MenuItem>
+                    ))}
+                  </Select>
+                )}
+              />
+              {errors.category && <FormHelperText>{errors.category.message}</FormHelperText>}
+            </FormControl>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Button 
+                onClick={handleClose} 
+                color="error" 
+                variant="outlined"
+              >
+                Cancel
+              </Button>
+              <Button 
+                type="submit" 
+                color="primary" 
+                variant="contained" 
+                sx={{ ml: 2 }}
+              >
+                {id ? 'Edit' : 'Create'}
+              </Button>
+            </Box>
+          </Box>
+        </DialogContent>
+      </Dialog>
     );
 };
