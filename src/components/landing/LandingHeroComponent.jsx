@@ -28,7 +28,7 @@ export const LandingHeroComponent = () => {
                         backgroundPosition: 'right bottom',
                         height: '400px',
                         width: '100%',
-                        borderRadius: '100%'//'72% 28% 70% 30% / 55% 48% 52% 45%'
+                        borderRadius: '100%'
                     }}>
 
                 </Box>
