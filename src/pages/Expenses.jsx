@@ -11,6 +11,7 @@ import { OperationResultSnackComponent } from "../components/shared/OperationRes
 import { ManageExpenseDialogComponent } from "../components/expenses/ManageExpenseDialogComponent";
 import { useParams } from "react-router-dom";
 import dayjs from "dayjs";
+import { useForm } from 'react-hook-form';
 
 const Expenses = () => {
     const [data, setData] = React.useState([]);
@@ -18,11 +19,6 @@ const Expenses = () => {
     const [total, setTotal] = React.useState(0);
     const [page, setPage] = React.useState(0);
     const [limit, setLimit] = React.useState(10);
-    const [searchTerm, setSearchTerm] = React.useState('');
-    const [amountValues, setAmountValues] = React.useState([0, 500]);
-    const [startDate, setStartDate] = React.useState(null);
-    const [endDate, setEndDate] = React.useState(null);
-    const [searchCategory, setSearchCategory] = React.useState('');
     const [expandedFilters, setExpandedFilers] = React.useState(false);
     const [openFilterDialog, setOpenFilterDialog] = React.useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
@@ -37,23 +33,33 @@ const Expenses = () => {
     const isScreenXs = useMediaQuery((theme) => theme.breakpoints.down('sm'));
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
+    const { register, setValue, control, reset, watch } = useForm({
+      defaultValues: {
+        searchTerm: '',
+        amount: [0, 500],
+        startDate: null,
+        endDate: null,
+        category: ''
+      }
+    });
+    
     const fetchData = async () => {
       try {
         const response = await axios.post(`${apiUrl}/api/expense/search`, {
           offset: page * limit,
           limit: limit,
-          categoryId: searchCategory,
-          overviewText: searchTerm == '' ? null : searchTerm,
-          startDate: startDate,
-          endDate: endDate,
-          minAmount: amountValues[0] <= 0 ? null : amountValues[0],
-          maxAmount: amountValues[1] >= 500 ? null : amountValues[1]
+          categoryId: searchForm.category,
+          overviewText: searchForm.searchTerm,
+          startDate: searchForm.startDate,
+          endDate: searchForm.endDate,
+          minAmount: searchForm.amount[0] <= 0 ? null : searchForm.amount[0],
+          maxAmount: searchForm.amount[1] >= 500 ? null : searchForm.amount[1]
         });  
 
-        const data = response.data;     
-        if (data) {
-          setData(data.data);
-          setTotal(data.total);
+        const responseData = response.data;     
+        if (responseData) {
+          setData(responseData.data);
+          setTotal(responseData.total);
           setLoading(false);
         }
       } catch (error) {
@@ -100,6 +106,11 @@ const Expenses = () => {
     };
 
     const debouncedFetchData = useDebounce(fetchData, 300);
+    const searchForm = watch();
+
+    useEffect(() => {
+        debouncedFetchData();
+    }, [debouncedFetchData, searchForm]);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -120,51 +131,17 @@ const Expenses = () => {
 
     useEffect(() => {
         if (inputStartDate) {
-            setStartDate(dayjs(inputStartDate));
+            setValue('startDate',dayjs(inputStartDate));
         }
-    }, [inputStartDate]);
-
-    useEffect(() => {
-        debouncedFetchData();
-    }, [searchTerm, amountValues, startDate, endDate, searchCategory, page, limit, debouncedFetchData]);
-
-    useEffect(() => {
-        setPage(0);
-    }, [searchTerm, amountValues, startDate, endDate]);
-
-    const handleSearchTermChange = (event) => {
-        setSearchTerm(event.target.value);
-    };
+    }, [inputStartDate, setValue]);
 
     function amountValueText(value) {
         return value >= 500 ? `$${value}+` : `$${value}`;
     }
 
     function clearFilters() {
-        setSearchTerm('');
-        setAmountValues([0, 500]);
-        setStartDate(null);
-        setEndDate(null);
-        setSearchCategory('');
-      }
-
-    const handleAmountChange = (event, newValue) => {
-        if (!Array.isArray(newValue))
-            return;
-
-        setAmountValues([newValue[0], newValue[1]])
-    };
-
-    const handleStartDateChange = (date) => {
-        setStartDate(date);
-    };
-
-    const handleEndDateChange = (date) => {
-        setEndDate(date);
-    };
-
-    const handleSearchCategoryChange = (event) => {
-        setSearchCategory(event.target.value);
+        reset();
+        setPage(0);
     }
 
     const handleFilterToggle = () => {
@@ -226,7 +203,7 @@ const Expenses = () => {
 
         setOpenDeleteDialog(false);
 
-        debouncedFetchData();
+        fetchData();
     }
 
     const handleOpenResultSnack = () => {
@@ -268,35 +245,19 @@ const Expenses = () => {
                             categories={categories}
                             expandedFilters={expandedFilters} 
                             onFilterToggle={handleFilterToggle}
-                            onSearchTermChange={handleSearchTermChange}
-                            searchTerm={searchTerm}
-                            onAmountChange={handleAmountChange}
-                            amountValues={amountValues}
                             amountValueText={amountValueText} 
-                            onStartDateChange={handleStartDateChange}
-                            startDate={startDate}
-                            onEndDateChange={handleEndDateChange}
-                            endDate={endDate}
-                            searchCategory={searchCategory}
-                            onSearchCategoryChange={handleSearchCategoryChange}
                             clearFilters={clearFilters}
+                            register={register}
+                            control={control}
                         />
                         <SearchFiltersDialogComponent
                             categories={categories}
                             open={openFilterDialog} 
                             onClose={handleCloseFilterDialog}
-                            onSearchTermChange={handleSearchTermChange}
-                            searchTerm={searchTerm}
-                            onAmountChange={handleAmountChange}
-                            amountValues={amountValues}
                             amountValueText={amountValueText}
-                            onStartDateChange={handleStartDateChange}
-                            startDate={startDate}
-                            onEndDateChange={handleEndDateChange}
-                            endDate={endDate}
-                            searchCategory={searchCategory}
-                            onSearchCategoryChange={handleSearchCategoryChange}
                             clearFilters={clearFilters}
+                            register={register}
+                            control={control}
                         />
                     </Grid>
                     <Grid item xs={12}>
