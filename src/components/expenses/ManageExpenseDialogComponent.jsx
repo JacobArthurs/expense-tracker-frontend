@@ -84,12 +84,14 @@ export const ManageExpenseDialogComponent = ({ id, categories, open, onClose, on
             <TextField 
               {...register('title', { required: 'This field is required' })}
               label="Title"
+              autoComplete='off'
               error={!!errors.title}
               helperText={errors.title?.message}
             />
             <TextField 
               {...register('description', { required: 'This field is required' })}
               label="Description"
+              autoComplete='off'
               error={!!errors.description}
               helperText={errors.description?.message}
             />
