@@ -8,7 +8,7 @@ export const ManageCategoryDialogComponent = ({ selectedCategory, open, onClose,
         title: '',
         description: ''
     });
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         const fetchData = async () => {

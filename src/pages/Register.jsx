@@ -77,7 +77,7 @@ const Register = () => {
     }
 
     try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+        const apiUrl = import.meta.env.VITE_API_URL;
         const registerResponse = await axios.post(`${apiUrl}/api/authentication/register`, {
           userName: formData.username,
           password: formData.password,

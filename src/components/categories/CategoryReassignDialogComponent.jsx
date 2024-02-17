@@ -15,7 +15,7 @@ export const CategoryReassignDialogComponent = ({ open, onClose, categories, sel
         }
     
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+            const apiUrl = import.meta.env.VITE_API_URL;
             const response = await axios.put(`${apiUrl}/api/expense/category-reassign`, {
                 oldCategoryId: selectedCategory.id,
                 newCategoryId: destinationCategory,

@@ -14,7 +14,7 @@ const Distributions = () => {
   const [openResultSnack, setOpenResultSnack] = React.useState(false);
   const [resultSnackMessage, setResultSnackMessage] = React.useState('');
   const [resultSnackSeverity, setResultSnackSeverity] = React.useState('success');
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+  const apiUrl = import.meta.env.VITE_API_URL;
   const colors = ['#219ebc', '#D163BB', '#E09F60', '#023047', '#912768', '#60E1E0', '#ffb703', '#6369D1', '#fb8500', '#B0BBE8'];
 
   const fetchDistributions = async () => {

@@ -19,7 +19,7 @@ const Categories = () => {
     const [resultSnackMessage, setResultSnackMessage] = React.useState('');
     const [resultSnackSeverity, setResultSnackSeverity] = React.useState('success');
     const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+    const apiUrl = import.meta.env.VITE_API_URL;
     
     const fetchCategories = async () => {
         try {

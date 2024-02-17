@@ -16,7 +16,7 @@ export const MonthlyExpenseChartComponent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+        const apiUrl = import.meta.env.VITE_API_URL;
         const response = await axios.get(`${apiUrl}/api/expense/monthly-metric`);
         const data = response.data;
 

@@ -29,7 +29,7 @@ const Expenses = () => {
   const [loading, setLoading] = React.useState(true);
   const { inputStartDate } = useParams();
   const isScreenXs = useMediaQuery((theme) => theme.breakpoints.down('sm'));
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const { register, setValue, control, reset, watch } = useForm({
     defaultValues: {
