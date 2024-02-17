@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Dialog, DialogContent, DialogTitle, TextField, FormControl, InputLabel, Select, MenuItem, FormHelperText, Box, Button, CircularProgress, Alert } from '@mui/material';
 import axios from 'axios';
@@ -6,6 +6,9 @@ import { NumericFormat } from 'react-number-format';
 
 
 export const ManageExpenseDialogComponent = ({ id, categories, open, onClose, onOpenResultSnack, onResultSnackMessageChange, onResultSnackSeverityChange }) => {
+  const categoryMenuItems = useMemo(() => categories.map(category => (
+    <MenuItem key={category.id} value={category.id}>{category.title}</MenuItem>
+  )), [categories]);
   const [loading, setLoading] = useState(!!id);
   const [error, setError] = useState('');
   
@@ -30,13 +33,12 @@ export const ManageExpenseDialogComponent = ({ id, categories, open, onClose, on
         setValue('description', description);
         setValue('amount', amount);
         setValue('category', categoryId);
-        setLoading(false);
       })
       .catch(error => {
         console.error(error);
         setError('Failed to load data');
-        setLoading(false);
-      });
+      })
+      .finally(() => setLoading(false));
   }, [id, apiUrl, setValue]);
 
   const onSubmit = async (data) => {
@@ -80,18 +82,16 @@ export const ManageExpenseDialogComponent = ({ id, categories, open, onClose, on
           {error ? <Alert severity="error">{error}</Alert> : (id ? 'Edit Expense' : 'Create Expense')}
         </DialogTitle>
         <DialogContent>
-          <Box component="form" id="form" onSubmit={handleSubmit(onSubmit)} sx={{display: 'flex', flexDirection:'column', gap: 2, pt:1}}>
+          <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{display: 'flex', flexDirection:'column', gap: 2, pt:1}} noValidate autoComplete="off">
             <TextField 
               {...register('title', { required: 'This field is required' })}
               label="Title"
-              autoComplete='off'
               error={!!errors.title}
               helperText={errors.title?.message}
             />
             <TextField 
               {...register('description', { required: 'This field is required' })}
               label="Description"
-              autoComplete='off'
               error={!!errors.description}
               helperText={errors.description?.message}
             />
@@ -130,9 +130,7 @@ export const ManageExpenseDialogComponent = ({ id, categories, open, onClose, on
                     {...field}
                     label="Category"
                   >
-                    {categories.map((category) => (
-                      <MenuItem key={category.id} value={category.id}>{category.title}</MenuItem>
-                    ))}
+                    {categoryMenuItems}
                   </Select>
                 )}
               />

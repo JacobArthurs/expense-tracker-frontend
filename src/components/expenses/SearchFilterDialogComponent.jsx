@@ -17,11 +17,10 @@ export const SearchFiltersDialogComponent = ({ categories, open, onClose, amount
         <DialogCloseButtonComponent onClose={onClose} />
         <DialogTitle>Filter Expenses</DialogTitle>
         <DialogContent>
-          <Box sx={{ py:1, display: 'flex', flexDirection: 'column', gap: 2}}>
+          <Box component="form" sx={{ py:1, display: 'flex', flexDirection: 'column', gap: 2}} noValidate autoComplete="off">
             <TextField 
               {...register('searchTerm')}
               label="Search"
-              autoComplete='off'
               fullWidth
               InputProps={{
               endAdornment: (

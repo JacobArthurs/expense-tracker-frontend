@@ -15,13 +15,12 @@ export const SearchFiltersComponent = ({ categories, expandedFilters, onFilterTo
   )), [categories]);
   
   return (
-    <>
+    <Box component="form" noValidate autoComplete="off">
       <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
         <Grid xs={10} sm={11} item>
           <TextField 
             {...register('searchTerm')}
             label="Search"
-            autoComplete='off'
             fullWidth
             InputProps={{
               endAdornment: (
@@ -142,6 +141,6 @@ export const SearchFiltersComponent = ({ categories, expandedFilters, onFilterTo
           </Grid>
         </Box>
       </Collapse>
-    </>
+    </Box>
   );
 };
