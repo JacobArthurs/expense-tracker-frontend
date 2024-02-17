@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Box, Container, Grid } from "@mui/material";
 import { DistributionChartComponent } from "../components/distributions/DistributionChartComponent";
 import axios from "axios";
@@ -17,78 +17,54 @@ const Distributions = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const colors = ['#219ebc', '#D163BB', '#E09F60', '#023047', '#912768', '#60E1E0', '#ffb703', '#6369D1', '#fb8500', '#B0BBE8'];
 
-  const fetchDistributions = async () => {
+  const fetchDistributions = useCallback(async () => {
     try {
-      const response = await axios.get(`${apiUrl}/api/expected-category-distribution`); 
-
-      const data = response.data;  
-      if (data) {
-        setDistributions(data);
-        setDistributionPieData(data.map(dist => ({
-          label: dist.category,
-          value: dist.distribution
-        })));
-      }
+      const { data } = await axios.get(`${apiUrl}/api/expected-category-distribution`);
+      const distributionPieData = data.map(dist => ({
+        label: dist.category,
+        value: dist.distribution,
+      }));
+      setDistributions(data);
+      setDistributionPieData(distributionPieData);
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching distributions:", error);
     }
-  };
+  }, [apiUrl]);
+
+  const fetchCurrentDistributions = useCallback(async () => {
+    try {
+      const { data } = await axios.post(`${apiUrl}/api/expense/current-distribution`, {
+        monthCount: monthCount,
+      });
+      const currentDistributionPieData = data.map(dist => ({
+        label: dist.category,
+        value: dist.distribution,
+      }));
+      setCurrentDistributions(data);
+      setCurrentDistributionPieData(currentDistributionPieData);
+    } catch (error) {
+      console.error("Error fetching current distributions:", error);
+    }
+  }, [apiUrl, monthCount]);
 
   useEffect(() => {
-    const fetchCurrentDistributions = async () => {
-      try {
-        const response = await axios.post(`${apiUrl}/api/expense/current-distribution`, {
-          monthCount: monthCount
-        }); 
-  
-        const data = response.data;  
-        if (data) {
-          setCurrentDistributions(data);
-          setCurrentDistributionPieData(data.map(dist => ({
-            label: dist.category,
-            value: dist.distribution
-          })));
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
+    fetchDistributions();
     fetchCurrentDistributions();
-  }, [apiUrl, monthCount])
+  }, [fetchDistributions, fetchCurrentDistributions]);
 
-  useEffect(() => {
-      fetchDistributions();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const handleDistributionChange = (value) => setDistributions(value);
 
-  const handleDistributionChange = (value) => {
-    setDistributions(value);
-  }
+  const handleMonthCountChange = (event) => setMonthCount(event.target.value);
 
-  const handleMonthCountChange = (event) => {
-    setMonthCount(event.target.value);
-  }
-
-  const handleOpenResultSnack = () => {
-    setOpenResultSnack(true);
-  }
-
-  const handleCloseResultSnack = () => {
-      setOpenResultSnack(false);
-  }
-
-  const handleResultSnackMessageChange = (message) => {
-      setResultSnackMessage(message);
-  }
-
-  const handleResultSnackSeverityChange = (severity) => {
-      setResultSnackSeverity(severity);
-  }
+  const handleOpenResultSnack = () => setOpenResultSnack(true);
+  const handleCloseResultSnack = () => setOpenResultSnack(false);
+  const handleResultSnackMessageChange = (message) => setResultSnackMessage(message);
+  const handleResultSnackSeverityChange = (severity) => setResultSnackSeverity(severity);
 
   return (
     <Box sx={{display: 'flex'}}>
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4, display: 'flex', justifyContent: 'center' }}>
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4, display: 'flex', justifyContent: 'center' }}>
+        {/* Distribution Charts */}
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
             <DistributionChartComponent 
@@ -108,18 +84,20 @@ const Distributions = () => {
               onMonthCountChange={handleMonthCountChange}
             />
           </Grid>
+
+          {/* Distribution Table */}
           <Grid item container xs={12}>
-          <DistributionTableComponent
-            expectedData={distributions}
-            currentData={currentDistributions}
-            colors={colors}
-            onDistributionChange={handleDistributionChange}
-            onOpenResultSnack={handleOpenResultSnack}
-            onResultSnackMessageChange={handleResultSnackMessageChange}
-            onResultSnackSeverityChange={handleResultSnackSeverityChange}
-            getExpectedDistributions={fetchDistributions}
-            apiUrl={apiUrl}
-          />
+            <DistributionTableComponent
+              expectedData={distributions}
+              currentData={currentDistributions}
+              colors={colors}
+              onDistributionChange={handleDistributionChange}
+              onOpenResultSnack={handleOpenResultSnack}
+              onResultSnackMessageChange={handleResultSnackMessageChange}
+              onResultSnackSeverityChange={handleResultSnackSeverityChange}
+              getExpectedDistributions={fetchDistributions}
+              apiUrl={apiUrl}
+            />
           </Grid>
           <OperationResultSnackComponent
             open={openResultSnack}
@@ -128,7 +106,7 @@ const Distributions = () => {
             message={resultSnackMessage}
           />
         </Grid>
-        </Container>
+      </Container>
     </Box>
   );
 };
