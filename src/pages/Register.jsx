@@ -11,86 +11,41 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { useThemeManagment } from '../hooks/useThemeManagement';
 import { useAuth } from '../hooks/useAuth';
+import { useForm } from 'react-hook-form';
+import { PasswordTextFieldComponent } from '../components/shared/PasswordTextFieldComponent';
 
 const Register = () => {
     const { setToken } = useAuth();
     const navigate = useNavigate();
     const theme = useTheme();
     const { darkMode, handleToggleDarkMode } = useThemeManagment();
-    const [formData, setFormData] = React.useState({
-        username: '',
+    const { handleSubmit, register, watch, formState: { errors } } = useForm({
+      defaultValues: {
+        userName: '',
         name: '',
         email: '',
         password: '',
-        confirmpassword: ''
+        confirmPassword: ''
+      }
     });
     const [error, setError] = React.useState('');
+    const apiUrl = import.meta.env.VITE_API_URL;
 
-    const handleChange = (event) => {
-        setFormData({
-            ...formData,
-            [event.target.name]: event.target.value,
-          });
-    };
-
-    const validateFormData = () => {
-        const errors = [];
-
-        if (formData.username.trim() === '') {
-          errors.push('Username is required');
-        }
-
-        if (formData.name.trim() === '') {
-          errors.push('Name is required');
-        }
-
-        if (formData.email.trim() === '') {
-          errors.push('Email is required');
-        }
-
-        if (formData.password.trim() === '') {
-          errors.push('Password is required');
-        }
-
-        if (formData.confirmpassword.trim() === '') {
-          errors.push('Password confirmation is required');
-        }
-
-        if (formData.confirmpassword.trim() !== '' &&
-            formData.password.trim() !== '' &&
-            formData.confirmpassword !== formData.password) {
-          errors.push('Passwords do not match');
-        }
-      
-        return errors;
-      };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const onSubmit = async (data) => {
     setError('');
 
-    const validationErrors = validateFormData();
-
-    if (validationErrors.length > 0) {
-        setError(validationErrors.join(', '));
-        return;
-    }
-
     try {
-        const apiUrl = import.meta.env.VITE_API_URL;
-        const registerResponse = await axios.post(`${apiUrl}/api/authentication/register`, {
-          userName: formData.username,
-          password: formData.password,
-          name: formData.name,
-          email: formData.email
+        const { data: registration } = await axios.post(`${apiUrl}/api/authentication/register`, {
+          userName: data.userName,
+          password: data.password,
+          name: data.name,
+          email: data.email
         });
-
-        const registration = registerResponse.data;
 
         if (registration && registration.success) {
             const response = await axios.post(`${apiUrl}/api/authentication/login`, {
-              userName: formData.username,
-              password: formData.password,
+              userName: data.userName,
+              password: data.password,
             });
 
             const token = response.data;
@@ -108,6 +63,8 @@ const Register = () => {
         setError('An error has occured. Please double-check your input and try again.')
     }
   };
+
+  const validateConfirmPassword = value => value === watch('password') || "Passwords don't match";
 
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>
@@ -152,63 +109,49 @@ const Register = () => {
             Register
           </Typography>
           <Alert severity="error" sx={{ mt: 1, width: '100%', visibility: error == '' ? 'hidden' : 'visible' }}>{error}</Alert>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1, width: '100%' }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="username"
+          <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1, width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }} noValidate autoComplete="off">
+            <TextField 
+              {...register('userName', { required: 'This field is required' })}
               label="Username"
-              name="username"
-              autoComplete='off'
               autoFocus
-              value={formData.username}
-              onChange={handleChange}
+              error={!!errors.userName}
+              helperText={errors.userName?.message}
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="name"
+            <TextField 
+              {...register('name', { required: 'This field is required' })}
               label="Name"
-              name="name"
-              autoComplete='off'
-              value={formData.name}
-              onChange={handleChange}
+              autoFocus
+              error={!!errors.name}
+              helperText={errors.name?.message}
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
+            <TextField 
+              {...register('email', { 
+                required: 'This field is required',
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: 'Invalid email address'
+                }   
+              })}
               label="Email"
-              name="email"
+              autoFocus
               type="email"
-              autoComplete='off'
-              value={formData.email}
-              onChange={handleChange}
+              error={!!errors.email}
+              helperText={errors.email?.message}
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="password"
-              label="Password"
+            <PasswordTextFieldComponent
+              register={register}
               name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
+              label="Password"
+              rules={{ required: 'This field is required' }}
+              error={errors.password}
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="confirmpassword"
-              label="Confirm password"
-              name="confirmpassword"
-              type="password"
-              value={formData.confirmpassword}
-              onChange={handleChange}
+            <PasswordTextFieldComponent
+              register={register}
+              name="confirmPassword"
+              label="Confirm Password"
+              rules={{ required: 'This field is required' }}
+              validate={{ validate: validateConfirmPassword }}
+              error={errors.confirmPassword}
             />
             <Button
               type="submit"
