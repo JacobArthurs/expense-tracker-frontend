@@ -1,4 +1,3 @@
-import React from 'react';
 import axios from 'axios';
 
 import { useNavigate } from 'react-router';
@@ -11,61 +10,41 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { useThemeManagment } from '../hooks/useThemeManagement';
 import { useAuth } from '../hooks/useAuth';
+import { useForm } from 'react-hook-form';
+import { PasswordTextFieldComponent } from '../components/shared/PasswordTextFieldComponent';
+import React from 'react';
 
 const Login = () => {
-    const { setToken } = useAuth();
-    const navigate = useNavigate();
-    const theme = useTheme();
-    const { darkMode, handleToggleDarkMode } = useThemeManagment();
-    const [formData, setFormData] = React.useState({
-        username: '',
-        password: '',
-    });
-    const [error, setError] = React.useState('');
+  const { setToken } = useAuth();
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const { darkMode, handleToggleDarkMode } = useThemeManagment();
+  const { handleSubmit, register, formState: { errors } } = useForm({
+    defaultValues: {
+      userName: '',
+      password: ''
+    }
+  });
+  const [error, setError] = React.useState('');
+  const apiUrl = import.meta.env.VITE_API_URL;
 
-    const handleChange = (event) => {
-        setFormData({
-            ...formData,
-            [event.target.name]: event.target.value,
-          });
-    };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const onSubmit = async (data) => {
     setError('');
-    const validationErrors = [];
-
-    if (formData.username.trim() === '') {
-      validationErrors.push('Username is required');
-    }
-
-    if (formData.password.trim() === '') {
-      validationErrors.push('Password is required');
-    }
-
-    if (validationErrors.length > 0) {
-      setError(validationErrors.join(', '));
-      return;
-    }
-
     try {
-        const apiUrl = import.meta.env.VITE_API_URL;
-        const response = await axios.post(`${apiUrl}/api/authentication/login`, {
-          userName: formData.username,
-          password: formData.password,
-        });
+      const { data: token } = await axios.post(`${apiUrl}/api/authentication/login`, {
+        userName: data.userName,
+        password: data.password,
+      });
 
-        const token = response.data;
-
-        if (token) {
-            setToken(token);
-            setTimeout(() => {
-                navigate('/dashboard');
-              });
-        }
+      if (token) {
+          setToken(token);
+          setTimeout(() => {
+              navigate('/dashboard');
+            });
+      }
     } catch (error) {
-        console.log(error);
-        setError('Invalid username or password. Please double-check your credentials.')
+      console.log(error);
+      setError('Invalid username or password. Please double-check your credentials.')
     }
   };
 
@@ -93,11 +72,11 @@ const Login = () => {
             mt:4,
             mr: 4 
           }}>
-            <Tooltip title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'} arrow>
-                <IconButton onClick={handleToggleDarkMode} color="inherit">
-                    {darkMode ? <DarkModeIcon /> : <LightModeIcon />}
-                </IconButton>
-            </Tooltip>
+          <Tooltip title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'} arrow>
+            <IconButton onClick={handleToggleDarkMode} color="inherit">
+              {darkMode ? <DarkModeIcon /> : <LightModeIcon />}
+            </IconButton>
+          </Tooltip>
         </Box>
         <Box
           sx={{
@@ -111,29 +90,19 @@ const Login = () => {
           <Avatar sx={{ m: 1, width: { xs:'100px', sm:'150px' }, height: { xs:'100px', sm:'150px' } }} variant="rounded" src="/src/assets/favicon-192x192.png">
           </Avatar>
           <Alert severity="error" sx={{ mt: 1, width: '100%', visibility: error == '' ? 'hidden' : 'visible' }}>{error}</Alert>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1, width: '100%' }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="username"
+          <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 2, width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }} noValidate autoComplete='off'>
+            <TextField 
+              {...register('userName', { required: 'This field is required' })}
               label="Username"
-              name="username"
-              autoComplete='off'
               autoFocus
-              value={formData.username}
-              onChange={handleChange}
+              error={!!errors.userName}
+              helperText={errors.userName?.message}
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="password"
-              label="Password"
+            <PasswordTextFieldComponent
+              register={register}
               name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
+              rules={{ required: 'This field is required' }}
+              error={errors.password}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" defaultChecked/>}
@@ -147,14 +116,12 @@ const Login = () => {
             >
               Log In
             </Button>
-            <Grid container sx={{mt: 1, mb: 3}}>
-              <Grid item>
-                <Typography variant='div' sx={{mr: 1}}>Don&apos;t have an account?</Typography>
-                <Link to="/register" variant="body2" style={{ color: theme.palette.secondary.main }}>
-                    Register
-                </Link>
-              </Grid>
-            </Grid>
+            <Box sx={{mt: 1, mb: 3}}>
+              <Typography variant='div' sx={{mr: 1}}>Don&apos;t have an account?</Typography>
+              <Link to="/register" variant="body2" style={{ color: theme.palette.secondary.main }}>
+                Register
+              </Link>
+            </Box>
             <FooterComponent />
           </Box>
         </Box>
