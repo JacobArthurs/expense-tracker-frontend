@@ -101,6 +101,7 @@ const Login = () => {
             <PasswordTextFieldComponent
               register={register}
               name="password"
+              label="Password"
               rules={{ required: 'This field is required' }}
               error={errors.password}
             />

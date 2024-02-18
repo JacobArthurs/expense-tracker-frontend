@@ -3,15 +3,18 @@ import { TextField, InputAdornment, IconButton } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
-export const PasswordTextFieldComponent = ({ register, name, rules, error, ...rest }) => {
+export const PasswordTextFieldComponent = ({ label, register, name, rules, error, validate, ...rest }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
+  const validationRules = validate ? { ...rules, validate } : rules;
+
+
   return (
     <TextField
-      {...register(name, rules)}
-      label="Password"
+      {...register(name, validationRules)}
+      label={label}
       type={showPassword ? 'text' : 'password'}
       error={!!error}
       helperText={error?.message}
