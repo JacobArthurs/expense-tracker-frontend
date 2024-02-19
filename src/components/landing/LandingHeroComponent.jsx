@@ -21,17 +21,13 @@ export const LandingHeroComponent = () => {
             </Grid>
             <Grid item xs={6} sx={{ height: '100%', display: {xs: 'none', md: 'flex'}, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                 <Box
+                    component="img"
+                    src={money}
                     sx={{
-                        backgroundImage:`url(${money})`,
-                        backgroundRepeat: "no-repeat",
-                        backgroundSize: "cover",
-                        backgroundPosition: 'right bottom',
-                        height: '400px',
                         width: '100%',
                         borderRadius: '100%'
-                    }}>
-
-                </Box>
+                    }} 
+                />
             </Grid>
         </Grid>
     );
