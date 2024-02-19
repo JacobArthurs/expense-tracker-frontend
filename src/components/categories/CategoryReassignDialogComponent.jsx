@@ -1,10 +1,10 @@
 import { Alert, Backdrop, Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, FormControl, FormHelperText, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 import axios from "axios";
-import React, { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 export const CategoryReassignDialogComponent = ({ open, onClose, categories, selectedCategory, onOpenResultSnack, onResultSnackMessageChange, onResultSnackSeverityChange, apiUrl }) => {
-  const [error, setError] = React.useState('');
+  const [error, setError] = useState('');
   const { handleSubmit, control, reset, formState: { errors } } = useForm({
     defaultValues: {
       destinationCategory: ''

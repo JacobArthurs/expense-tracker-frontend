@@ -1,10 +1,10 @@
 import { Alert, Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
 import axios from "axios";
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 export const ManageCategoryDialogComponent = ({ selectedCategory, open, onClose, onOpenResultSnack, onResultSnackMessageChange, onResultSnackSeverityChange, apiUrl }) => {
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const { handleSubmit, register, setValue, reset, formState: { errors } } = useForm({
     defaultValues: {
       title: '',

@@ -1,16 +1,16 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
 
 import { ToolbarComponent } from './ToolbarComponent';
 import { SidebarComponent } from './SidebarComponent';
 import { FooterComponent } from './FooterComponent';
 import { useThemeManagment } from '../../hooks/useThemeManagement';
+import { useState } from 'react';
 
 const drawerWidth = 240;
 
 export const NavigationComponent = ({ children }) => {
   const { darkMode, handleToggleDarkMode, theme } = useThemeManagment();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleToggleDrawer = () => setOpen(!open);
   

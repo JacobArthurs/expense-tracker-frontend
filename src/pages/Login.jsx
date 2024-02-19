@@ -12,7 +12,7 @@ import { useThemeManagment } from '../hooks/useThemeManagement';
 import { useAuth } from '../hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import { PasswordTextFieldComponent } from '../components/shared/PasswordTextFieldComponent';
-import React from 'react';
+import { useState } from 'react';
 
 const Login = () => {
   const { setToken } = useAuth();
@@ -25,7 +25,7 @@ const Login = () => {
       password: ''
     }
   });
-  const [error, setError] = React.useState('');
+  const [error, setError] = useState('');
   const apiUrl = import.meta.env.VITE_API_URL;
 
   const onSubmit = async (data) => {

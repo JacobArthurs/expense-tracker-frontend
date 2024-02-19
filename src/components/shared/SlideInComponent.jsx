@@ -1,12 +1,12 @@
 import { Slide } from "@mui/material";
-import React from "react";
+import { useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 export const SlideInComponent = ({ children, direction, disabled }) => {
   const [ref, inView] = useInView({
     rootMargin: '-100px 0px',
   });
-  const [triggered, setTriggered] = React.useState(false);
+  const [triggered, setTriggered] = useState(false);
 
   if (inView && !triggered) {
     setTriggered(true);

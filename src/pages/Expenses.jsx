@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useDebounce from "../hooks/useDebounce"
 import { Box, Container, Grid, useMediaQuery } from "@mui/material";
 import { SearchFiltersComponent } from "../components/expenses/SearchFiltersComponent";
@@ -14,19 +14,19 @@ import dayjs from "dayjs";
 import { useForm } from 'react-hook-form';
 
 const Expenses = () => {
-  const [data, setData] = React.useState([]);
-  const [categories, setCategories] = React.useState([]);
-  const [total, setTotal] = React.useState(0);
-  const [expandedFilters, setExpandedFilters] = React.useState(false);
-  const [openFilterDialog, setOpenFilterDialog] = React.useState(false);
-  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
-  const [selectedRows, setSelectedRows] = React.useState([]);
-  const [openResultSnack, setOpenResultSnack] = React.useState(false);
-  const [resultSnackMessage, setResultSnackMessage] = React.useState('');
-  const [resultSnackSeverity, setResultSnackSeverity] = React.useState('success');
-  const [openManageExpenseDialog, setOpenManageExpenseDialog] = React.useState(false);
-  const [manageExpenseId, setManageExpenseId] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
+  const [data, setData] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [expandedFilters, setExpandedFilters] = useState(false);
+  const [openFilterDialog, setOpenFilterDialog] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [openResultSnack, setOpenResultSnack] = useState(false);
+  const [resultSnackMessage, setResultSnackMessage] = useState('');
+  const [resultSnackSeverity, setResultSnackSeverity] = useState('success');
+  const [openManageExpenseDialog, setOpenManageExpenseDialog] = useState(false);
+  const [manageExpenseId, setManageExpenseId] = useState(null);
+  const [loading, setLoading] = useState(true);
   const { inputStartDate } = useParams();
   const isScreenXs = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const apiUrl = import.meta.env.VITE_API_URL;

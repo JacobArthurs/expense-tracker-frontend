@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -7,8 +7,8 @@ import { PrivacyDialogComponent } from './PrivacyDialogComponent';
 import { Backdrop } from '@mui/material';
 
 export const FooterComponent = () => {
-  const [openTermsDialog, setOpenTermsDialog] = React.useState(false);
-  const [openPrivacyDialog, setOpenPrivacyDialog] = React.useState(false);
+  const [openTermsDialog, setOpenTermsDialog] = useState(false);
+  const [openPrivacyDialog, setOpenPrivacyDialog] = useState(false);
 
   const handleOpenTermsDialog = () => setOpenTermsDialog(true);
   const handleCloseTermsDialog = () => setOpenTermsDialog(false);

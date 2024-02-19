@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import { Link, useNavigate } from 'react-router-dom';
@@ -14,7 +14,7 @@ import { useAuth } from '../../hooks/useAuth';
 
 export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkMode, drawerWidth }) => {
   const { setToken } = useAuth();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const theme = useTheme();
   const navigate = useNavigate();
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from "react";
 import { Box, CircularProgress, Typography, useTheme } from '@mui/material';
@@ -8,8 +8,8 @@ import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import dayjs from 'dayjs';
 
 export const CurrentExpenseAmount = () => {
-  const [totalAmount, setTotalAmount] = React.useState(null);
-  const [difference, setDifference] = React.useState(null);
+  const [totalAmount, setTotalAmount] = useState(null);
+  const [difference, setDifference] = useState(null);
   const theme = useTheme();
   const currentMonth = new Date().toLocaleString('default', { month: 'long' }) + ' ' + new Date().getFullYear();
   const currentMonthStart = dayjs().startOf('month').startOf('day');

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 import { useNavigate } from 'react-router';
@@ -28,7 +28,7 @@ const Register = () => {
         confirmPassword: ''
       }
     });
-    const [error, setError] = React.useState('');
+    const [error, setError] = useState('');
     const apiUrl = import.meta.env.VITE_API_URL;
 
   const onSubmit = async (data) => {

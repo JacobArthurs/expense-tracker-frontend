@@ -1,11 +1,11 @@
-import React from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from "react";
 import { Box, CircularProgress, Table, TableBody, TableCell, TableHead, TableRow, Typography, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 export const RecentExpenseComponent = () => {
-  const [expenseData, setExpenseData] = React.useState(null);
+  const [expenseData, setExpenseData] = useState(null);
   const theme = useTheme();
 
   useEffect(() => {

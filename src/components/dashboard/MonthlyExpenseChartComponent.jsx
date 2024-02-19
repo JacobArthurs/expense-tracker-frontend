@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { LineChart } from "@mui/x-charts";
 import { useEffect } from "react";
@@ -6,7 +6,7 @@ import { CircularProgress, Typography, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
 
 export const MonthlyExpenseChartComponent = () => {
-  const [chartData, setChartData] = React.useState({ xAxis: [], yAxis: [] });
+  const [chartData, setChartData] = useState({ xAxis: [], yAxis: [] });
   const theme = useTheme();
   const currencyFormatter = new Intl.NumberFormat('en-US', {
     style: 'currency',

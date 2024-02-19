@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Box, Container, Grid } from "@mui/material";
 import { DistributionChartComponent } from "../components/distributions/DistributionChartComponent";
 import axios from "axios";
@@ -6,14 +6,14 @@ import { OperationResultSnackComponent } from "../components/shared/OperationRes
 import { DistributionTableComponent } from "../components/distributions/DistributionTableComponent";
 
 const Distributions = () => {
-  const [distributions, setDistributions] = React.useState([]);
-  const [distributionPieData, setDistributionPieData] = React.useState([]);
-  const [currentDistributions, setCurrentDistributions] = React.useState([]);
-  const [currentDistributionPieData, setCurrentDistributionPieData] = React.useState([]);
-  const [monthCount, setMonthCount] = React.useState(1);
-  const [openResultSnack, setOpenResultSnack] = React.useState(false);
-  const [resultSnackMessage, setResultSnackMessage] = React.useState('');
-  const [resultSnackSeverity, setResultSnackSeverity] = React.useState('success');
+  const [distributions, setDistributions] = useState([]);
+  const [distributionPieData, setDistributionPieData] = useState([]);
+  const [currentDistributions, setCurrentDistributions] = useState([]);
+  const [currentDistributionPieData, setCurrentDistributionPieData] = useState([]);
+  const [monthCount, setMonthCount] = useState(1);
+  const [openResultSnack, setOpenResultSnack] = useState(false);
+  const [resultSnackMessage, setResultSnackMessage] = useState('');
+  const [resultSnackSeverity, setResultSnackSeverity] = useState('success');
   const apiUrl = import.meta.env.VITE_API_URL;
   const colors = ['#219ebc', '#D163BB', '#E09F60', '#023047', '#912768', '#60E1E0', '#ffb703', '#6369D1', '#fb8500', '#B0BBE8'];
 

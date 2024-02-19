@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Box, Button, CircularProgress, Container, Fab, Grid, IconButton, Paper, Stack, Tooltip, Typography } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -11,14 +11,14 @@ import { DeleteDialogComponent } from "../components/shared/DeleteDialogComponen
 import { ManageCategoryDialogComponent } from "../components/categories/ManageCategoryDialogComponent";
 
 const Categories = () => {
-  const [categories, setCategories] = React.useState([]);
-  const [selectedCategory, setSelectedCategory] = React.useState(null);
-  const [openManageDialog, setOpenManageDialog] = React.useState(false);
-  const [openReassignDialog, setOpenReassignDialog] = React.useState(false);
-  const [openResultSnack, setOpenResultSnack] = React.useState(false);
-  const [resultSnackMessage, setResultSnackMessage] = React.useState('');
-  const [resultSnackSeverity, setResultSnackSeverity] = React.useState('success');
-  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [openManageDialog, setOpenManageDialog] = useState(false);
+  const [openReassignDialog, setOpenReassignDialog] = useState(false);
+  const [openResultSnack, setOpenResultSnack] = useState(false);
+  const [resultSnackMessage, setResultSnackMessage] = useState('');
+  const [resultSnackSeverity, setResultSnackSeverity] = useState('success');
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const apiUrl = import.meta.env.VITE_API_URL;
     
   const fetchCategories = useCallback(() => {
