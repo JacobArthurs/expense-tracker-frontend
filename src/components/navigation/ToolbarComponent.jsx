@@ -12,22 +12,14 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, ListItemIcon, Menu, MenuItem, useTheme } from '@mui/material';
 import { useAuth } from '../../hooks/useAuth';
 
-
-const drawerWidth = 240;
-
-export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkMode }) => {
+export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkMode, drawerWidth }) => {
   const { setToken } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
+  const handleMenuOpen = (event) => setAnchorEl(event.currentTarget);
+  const handleMenuClose = () => setAnchorEl(null);
 
   const handleLogout = () => {
     navigate('/');

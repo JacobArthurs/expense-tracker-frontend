@@ -10,7 +10,6 @@ export const PasswordTextFieldComponent = ({ label, register, name, rules, error
 
   const validationRules = validate ? { ...rules, validate } : rules;
 
-
   return (
     <TextField
       {...register(name, validationRules)}

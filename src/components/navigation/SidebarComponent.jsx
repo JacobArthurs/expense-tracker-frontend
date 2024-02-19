@@ -16,7 +16,6 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CategoryIcon from '@mui/icons-material/Category';
 import PieChartIcon from '@mui/icons-material/PieChart';
-const drawerWidth = 240;
 
 const menuItems = [
   { key: 'dashboard', to: '/dashboard', icon: <DashboardIcon />, text: 'Dashboard' },
@@ -25,28 +24,27 @@ const menuItems = [
   { key: 'distributions', to: '/distributions', icon: <PieChartIcon />, text: 'Distributions' },
 ];
 
-const openedMixin = (theme) => ({
-  width: drawerWidth,
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: 'hidden',
-});
-
-const closedMixin = (theme) => ({
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  overflowX: 'hidden',
-  width: {xs: 0, sm: `calc(${theme.spacing(8)} + 1px)`},
-});
-
-export const SidebarComponent = ({ open, onToggleDrawer }) => {
+export const SidebarComponent = ({ open, onToggleDrawer, drawerWidth }) => {
   const theme = useTheme();
-
   const location = useLocation();
+
+  const openedMixin = (theme) => ({
+    width: drawerWidth,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    overflowX: 'hidden',
+  });
+  
+  const closedMixin = (theme) => ({
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: 'hidden',
+    width: {xs: 0, sm: `calc(${theme.spacing(8)} + 1px)`},
+  });
 
   const isItemSelected = (path) => {
     return location.pathname === path;
