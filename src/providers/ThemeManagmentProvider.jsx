@@ -31,7 +31,16 @@ const ThemeManagmentProvider = ({ children }) => {
       button: {
         textTransform: 'none'
       }
-    }
+    },
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            borderRadius: 32,
+          },
+        },
+      },
+    },
   });
 
   return (

@@ -15,7 +15,7 @@ export const LandingHeroComponent = () => {
                     to="/register"
                     variant="contained"
                     size="large"
-                    sx={{ borderRadius: 8, width: {xs: '75%', md: '50%'} }}>
+                    sx={{ width: {xs: '75%', md: '50%'} }}>
                     <Typography variant="h5">Get started</Typography>
                 </Button>
             </Grid>

@@ -93,7 +93,6 @@ export const DistributionTableComponent = ({ expectedData, currentData, colors, 
                 variant="contained"
                 size="small"
                 endIcon={editMode ? <CheckIcon /> : <EditIcon />} 
-                sx={{ borderRadius: 8 }}
                 onClick={editMode ? handleSaveDistributions : handleOpenEditMode}>
                 <Typography variant="body2">{editMode ? 'Save' : 'Edit'}</Typography>
               </Button>

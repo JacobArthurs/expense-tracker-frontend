@@ -29,14 +29,14 @@ export const LandingToolbarComponent = ({ darkMode, onToggleDarkMode }) => {
                             component={Link}
                             to="/login"
                             variant="contained"
-                            sx={{ borderRadius: 8, width: '95px', height: '35px'}}>
+                            sx={{ width: '95px', height: '35px'}}>
                             <Typography variant="body1">Login</Typography>
                         </Button>
                         <Button
                             component={Link}
                             to="/register"
                             variant="outlined"
-                            sx={{ borderRadius: 8, width: '95px',  height: '35px', display: {xs: 'none', md: 'block'}}}>
+                            sx={{ width: '95px',  height: '35px', display: {xs: 'none', md: 'block'}}}>
                             <Typography variant="body1">Register</Typography>
                         </Button>
                         <Tooltip title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'} arrow>
