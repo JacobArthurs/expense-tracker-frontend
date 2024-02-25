@@ -11,6 +11,8 @@ Before you begin, ensure you have met the following requirements:
 
 ## Getting Started
 
+To get the Expense Tracker Frontend up and running, follow these steps:
+
 1. **Clone the repository:**
 
    ```bash
@@ -31,7 +33,7 @@ Before you begin, ensure you have met the following requirements:
    VITE_API_URL=http://localhost:8080
    ```
 
-   Adjust this URL according to the Expense Tracker API's running location.
+   This URL should be adjusted according to where the Expense Tracker API is running.
 
 4. **Start the development server:**
 
@@ -41,11 +43,17 @@ Before you begin, ensure you have met the following requirements:
 
 ## Usage
 
-- To view the frontend navigate to: `http://localhost:5173/`
+- **Navigating the Frontend**
 
-- Upon visiting the application for the first time, click on "Register" in the top right corner to create an account.
+  Access the frontend by navigating to `http://localhost:5173/` in your web browser. This URL hosts the local development server version of the Expense Tracker Frontend.
 
-- After registration, you will have access to the full functionalities of the website.
+- **Account Registration**
+
+  For new users, click on "Register" located in the top right corner of the homepage to create a new account. Follow the prompts to enter your details and set up your account.
+
+- **Exploring Features**
+
+  Once registered, you can log in to access and utilize the full functionalities of the Expense Tracker website, including adding, viewing, and managing expenses, categories, and distributiuons.
 
 ## Collaboration and Feedback
 
