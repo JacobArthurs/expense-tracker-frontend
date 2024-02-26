@@ -26,7 +26,7 @@ export const ManageExpenseDialogComponent = ({ id, categories, open, onClose, on
   useEffect(() => {
     if (!id) return;
     setLoading(true);
-    axios.get(`${apiUrl}/api/expense/${id}`)
+    axios.get(`${apiUrl}/expense/${id}`)
       .then(response => {
         const { title, description, amount, categoryId } = response.data;
         setValue('title', title);
@@ -42,7 +42,7 @@ export const ManageExpenseDialogComponent = ({ id, categories, open, onClose, on
   }, [id, apiUrl, setValue]);
 
   const onSubmit = async (data) => {
-    const endpoint = `${apiUrl}/api/expense${id ? `/${id}` : ''}`;
+    const endpoint = `${apiUrl}/expense${id ? `/${id}` : ''}`;
     const method = id ? 'put' : 'post';
     
     try {

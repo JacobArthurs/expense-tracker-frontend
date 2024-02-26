@@ -12,7 +12,7 @@ export const RecentExpenseComponent = () => {
     const fetchData = async () => {
       try {
         const apiUrl = import.meta.env.VITE_API_URL;
-        const response = await axios.post(`${apiUrl}/api/expense/search`, {
+        const response = await axios.post(`${apiUrl}/expense/search`, {
           limit: 5
         });
 

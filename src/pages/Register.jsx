@@ -35,7 +35,7 @@ const Register = () => {
     setError('');
 
     try {
-        const { data: registration } = await axios.post(`${apiUrl}/api/authentication/register`, {
+        const { data: registration } = await axios.post(`${apiUrl}/authentication/register`, {
           userName: data.userName,
           password: data.password,
           name: data.name,
@@ -43,7 +43,7 @@ const Register = () => {
         });
 
         if (registration && registration.success) {
-            const response = await axios.post(`${apiUrl}/api/authentication/login`, {
+            const response = await axios.post(`${apiUrl}/authentication/login`, {
               userName: data.userName,
               password: data.password,
             });

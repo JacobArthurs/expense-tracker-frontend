@@ -18,7 +18,7 @@ export const CategoryReassignDialogComponent = ({ open, onClose, categories, sel
     setError('');
   
     try {
-      const { data : responseData } = await axios.put(`${apiUrl}/api/expense/category-reassign`, {
+      const { data : responseData } = await axios.put(`${apiUrl}/expense/category-reassign`, {
         oldCategoryId: selectedCategory.id,
         newCategoryId: data.destinationCategory,
       });

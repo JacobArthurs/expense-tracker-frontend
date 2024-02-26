@@ -14,7 +14,7 @@ export const DistributionTableComponent = ({ expectedData, currentData, colors, 
   const updateDistributions = useCallback(async () => {
     try {
       const updateResponses = await Promise.all(expectedData.map(dist => 
-        axios.put(`${apiUrl}/api/expected-category-distribution/${dist.id}`, {
+        axios.put(`${apiUrl}/expected-category-distribution/${dist.id}`, {
           categoryId: dist.categoryId,
           distribution: dist.distribution
         })

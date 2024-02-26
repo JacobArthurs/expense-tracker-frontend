@@ -18,12 +18,12 @@ export const CurrentExpenseAmount = () => {
     const fetchData = async () => {
       try {
         const apiUrl = import.meta.env.VITE_API_URL;
-        const responseCurrent = await axios.post(`${apiUrl}/api/expense/total-amount`, {
+        const responseCurrent = await axios.post(`${apiUrl}/expense/total-amount`, {
           month: currentMonthStart
         });
         const currentTotal = responseCurrent.data;
 
-        const responsePreviousMonth = await axios.post(`${apiUrl}/api/expense/total-amount`, {
+        const responsePreviousMonth = await axios.post(`${apiUrl}/expense/total-amount`, {
           month: dayjs(currentMonthStart).subtract(1, 'month')
         });
         const previousMonthTotal = responsePreviousMonth.data;

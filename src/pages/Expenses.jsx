@@ -45,7 +45,7 @@ const Expenses = () => {
     
   const fetchData = async () => {
       try {
-        const { data } = await axios.post(`${apiUrl}/api/expense/search`, {
+        const { data } = await axios.post(`${apiUrl}/expense/search`, {
           offset: searchForm.page * searchForm.limit,
           limit: searchForm.limit,
           categoryId: searchForm.category,
@@ -70,7 +70,7 @@ const Expenses = () => {
   const deleteData = async (deletedIds) => {
     try {
       const responses = await Promise.all(
-        deletedIds.map(id => axios.delete(`${apiUrl}/api/expense/${id}`))
+        deletedIds.map(id => axios.delete(`${apiUrl}/expense/${id}`))
       );
   
       const failedDeletions = responses.filter(response => !response.data.success);
@@ -103,7 +103,7 @@ const Expenses = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const { data } = await axios.get(`${apiUrl}/api/category`);
+        const { data } = await axios.get(`${apiUrl}/category`);
         setCategories(data);
       } catch (error) {
         console.error("Error fetching categories:", error);

@@ -15,7 +15,7 @@ export const ManageCategoryDialogComponent = ({ selectedCategory, open, onClose,
   useEffect(() => {
       if (!selectedCategory || !open) return;
       setLoading(true);
-      axios.get(`${apiUrl}/api/category/${selectedCategory.id}`)
+      axios.get(`${apiUrl}/category/${selectedCategory.id}`)
         .then(response => {
           const { title, description } = response.data;
           setValue('title', title);
@@ -29,7 +29,7 @@ export const ManageCategoryDialogComponent = ({ selectedCategory, open, onClose,
   }, [apiUrl, setValue, selectedCategory, open]);
 
   const onSubmit = async (data) => {
-      const endpoint = `${apiUrl}/api/category${selectedCategory ? `/${selectedCategory.id}` : ''}`;
+      const endpoint = `${apiUrl}/category${selectedCategory ? `/${selectedCategory.id}` : ''}`;
       const method = selectedCategory ? 'put' : 'post';
       
       try {

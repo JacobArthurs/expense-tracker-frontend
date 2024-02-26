@@ -19,7 +19,7 @@ const Distributions = () => {
 
   const fetchDistributions = useCallback(async () => {
     try {
-      const { data } = await axios.get(`${apiUrl}/api/expected-category-distribution`);
+      const { data } = await axios.get(`${apiUrl}/expected-category-distribution`);
       const distributionPieData = data.map(dist => ({
         label: dist.category,
         value: dist.distribution,
@@ -33,7 +33,7 @@ const Distributions = () => {
 
   const fetchCurrentDistributions = useCallback(async () => {
     try {
-      const { data } = await axios.post(`${apiUrl}/api/expense/current-distribution`, {
+      const { data } = await axios.post(`${apiUrl}/expense/current-distribution`, {
         monthCount: monthCount,
       });
       const currentDistributionPieData = data.map(dist => ({

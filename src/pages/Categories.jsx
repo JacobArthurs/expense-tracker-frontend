@@ -22,7 +22,7 @@ const Categories = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
     
   const fetchCategories = useCallback(() => {
-    axios.get(`${apiUrl}/api/category`)
+    axios.get(`${apiUrl}/category`)
       .then(response => setCategories(response.data))
       .catch(error => console.error("Error fetching categories:", error));
   }, [apiUrl]);
@@ -32,7 +32,7 @@ const Categories = () => {
     setOpenDeleteDialog(false);
   
     try {
-      const { data } = await axios.delete(`${apiUrl}/api/category/${selectedCategory.id}`);
+      const { data } = await axios.delete(`${apiUrl}/category/${selectedCategory.id}`);
       handleResultSnackMessageChange(data.message);
       handleResultSnackSeverityChange(data.success ? 'success' : 'error');
       handleOpenResultSnack();
