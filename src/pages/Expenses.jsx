@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import useDebounce from "../hooks/useDebounce"
 import { Box, Container, Grid, useMediaQuery } from "@mui/material";
 import { SearchFiltersComponent } from "../components/expenses/SearchFiltersComponent";
@@ -14,7 +14,7 @@ import dayjs from "dayjs";
 import { useForm } from 'react-hook-form';
 
 const Expenses = () => {
-  const [data, setData] = useState([]);
+  const [expenses, setExpenses] = useState([]);
   const [categories, setCategories] = useState([]);
   const [total, setTotal] = useState(0);
   const [expandedFilters, setExpandedFilters] = useState(false);
@@ -31,7 +31,7 @@ const Expenses = () => {
   const isScreenXs = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const apiUrl = import.meta.env.VITE_API_URL;
 
-  const { register, setValue, control, reset, watch } = useForm({
+  const { register, setValue, control, reset, watch, handleSubmit } = useForm({
     defaultValues: {
       searchTerm: '',
       amount: [0, 500],
@@ -43,21 +43,21 @@ const Expenses = () => {
     }
   });
     
-  const fetchData = async () => {
+  const fetchData = async (input) => {
       try {
         const { data } = await axios.post(`${apiUrl}/expense/search`, {
-          offset: searchForm.page * searchForm.limit,
-          limit: searchForm.limit,
-          categoryId: searchForm.category,
-          overviewText: searchForm.searchTerm,
-          startDate: searchForm.startDate,
-          endDate: searchForm.endDate,
-          minAmount: searchForm.amount[0] <= 0 ? null : searchForm.amount[0],
-          maxAmount: searchForm.amount[1] >= 500 ? null : searchForm.amount[1],
+          offset: input.page * input.limit,
+          limit: input.limit,
+          categoryId: input.category,
+          overviewText: input.searchTerm,
+          startDate: input.startDate,
+          endDate: input.endDate,
+          minAmount: input.amount[0] <= 0 ? null : input.amount[0],
+          maxAmount: input.amount[1] >= 500 ? null : input.amount[1],
         });
     
         if (data) {
-          setData(data.data);
+          setExpenses(data.data);
           setTotal(data.total);
         }
       } catch (error) {
@@ -93,12 +93,21 @@ const Expenses = () => {
     }
   };
 
-  const debouncedFetchData = useDebounce(fetchData, 300);
-  const searchForm = watch();
-  
+  const debouncedFetchData = useRef(useDebounce((data) => fetchData(data), 300));
+
+  const onSubmit = useCallback((data) => {
+    debouncedFetchData.current(data);
+  }, [debouncedFetchData]);
+
   useEffect(() => {
-    debouncedFetchData();
-  }, [debouncedFetchData, searchForm]);
+    const subscription = watch(handleSubmit(onSubmit));
+    return () => subscription.unsubscribe();
+  }, [handleSubmit, watch, onSubmit]);
+
+  useEffect(() => {
+    fetchData(watch());
+  // eslint-disable-next-line
+  }, [])
   
   useEffect(() => {
     const fetchCategories = async () => {
@@ -223,7 +232,7 @@ const Expenses = () => {
           {/* Expense table and operation result components */}
           <Grid item xs={12}>
             <ExpenseTableComponent
-              data={data}
+              data={expenses}
               totalRows={total}
               selectedRows={selectedRows}
               onSelectRow={handleSelectRow}
