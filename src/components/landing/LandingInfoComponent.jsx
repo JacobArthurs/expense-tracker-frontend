@@ -6,7 +6,7 @@ export const LandingInfoComponent = ({ title, description, icon, darkMode, order
   const isScreenSm = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
-    <Grid item container spacing={6} sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', mb:8 }}>
+    <Grid item container spacing={6} sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', mb:16 }}>
       <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center' }} order={{xs: 0, md: order}}>
         <Box sx={{ width: isScreenSm ? '50%' : '100%', height: isScreenSm ? '50%' : '100%', p: {xs: 5, sm: 8, md: 10}, bgcolor: darkMode ? theme.palette.grey[900] : theme.palette.grey[200], borderRadius: '100%' }}>
           <Box

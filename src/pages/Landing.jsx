@@ -38,7 +38,7 @@ const Landing = () => {
       <Container maxWidth="lg" sx={{ mb: 4, mt:8, display: 'flex', justifyContent: 'center' }}>
         <Grid container>
           <LandingHeroComponent />
-          <Grid item container spacing={2} mb={8}>
+          <Grid item container spacing={2} mt={8} mb={16}>
             <Grid item xs={12}>
               <Typography variant="h5" sx={{ fontWeight: 'medium'}}>How can we help you?</Typography>
             </Grid>
