@@ -73,7 +73,7 @@ export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkM
         </Box>
         <Box  sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexGrow: 1 }}>
           <Box sx={{ width: {xs: 0, sm: 48}, ml: {xs: 0, sm: 1} }}></Box>
-          <Link to="/dashboard" style={{ display: 'inline-block' }}>
+          <Link to="/dashboard" style={{ display: 'flex', alignItems: 'center' }}>
             <Box
               component="img"
               alt='Expense Tracker'
