@@ -80,7 +80,7 @@ export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkM
               src={icon}
               sx={{
                   width: '48px',
-                  borderRadius: '48px'
+                  height: '48px'
               }} 
             />
           </Link>
