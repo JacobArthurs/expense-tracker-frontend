@@ -11,6 +11,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, ListItemIcon, Menu, MenuItem, useTheme } from '@mui/material';
 import { useAuth } from '../../hooks/useAuth';
+import icon from "../../assets/favicon-192x192.png"
 
 export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkMode, drawerWidth }) => {
   const { setToken } = useAuth();
@@ -73,7 +74,15 @@ export const ToolbarComponent = ({ open, onToggleDrawer, darkMode, onToggleDarkM
         <Box  sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexGrow: 1 }}>
           <Box sx={{ width: {xs: 0, sm: 48}, ml: {xs: 0, sm: 1} }}></Box>
           <Link to="/dashboard" style={{ display: 'inline-block' }}>
-            <img src="/src/assets/favicon-192x192.png" alt='Expense Tracker' style={{ display: 'block', width: '48px', height: '48px' }}/>
+            <Box
+              component="img"
+              alt='Expense Tracker'
+              src={icon}
+              sx={{
+                  width: '48px',
+                  borderRadius: '48px'
+              }} 
+            />
           </Link>
           <Box sx={{ display:'flex', justifyContent: 'center', width: 48, height: 'fit-content', mr:1 }}>
             <Tooltip title="Settings" arrow>

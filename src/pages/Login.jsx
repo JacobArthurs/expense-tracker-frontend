@@ -13,6 +13,8 @@ import { useAuth } from '../hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import { PasswordTextFieldComponent } from '../components/shared/PasswordTextFieldComponent';
 import { useState } from 'react';
+import icon from "../assets/favicon-192x192.png"
+import money from "../assets/money.jpg"
 
 const Login = () => {
   const { setToken } = useAuth();
@@ -56,7 +58,7 @@ const Login = () => {
         sm={4}
         md={7}
         sx={{
-          backgroundImage:  `url(${"src/assets/money.jpg"})`,
+          backgroundImage:  `url(${money})`,
           backgroundRepeat: 'no-repeat',
           backgroundColor: (t) =>
             t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -87,8 +89,15 @@ const Login = () => {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, width: { xs:'100px', sm:'150px' }, height: { xs:'100px', sm:'150px' } }} variant="rounded" src="/src/assets/favicon-192x192.png">
-          </Avatar>
+          <Avatar 
+            sx={{ 
+              m: 1, 
+              width: { xs:'100px', sm:'150px' }, 
+              height: { xs:'100px', sm:'150px' } 
+            }} 
+            variant="rounded" 
+            src={icon}
+          />
           <Alert severity="error" sx={{ mt: 1, width: '100%', visibility: error == '' ? 'hidden' : 'visible' }}>{error}</Alert>
           <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 2, width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }} noValidate autoComplete='off'>
             <TextField 

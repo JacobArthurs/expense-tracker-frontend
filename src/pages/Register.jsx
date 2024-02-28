@@ -13,6 +13,7 @@ import { useThemeManagment } from '../hooks/useThemeManagement';
 import { useAuth } from '../hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import { PasswordTextFieldComponent } from '../components/shared/PasswordTextFieldComponent';
+import money from "../assets/money.jpg"
 
 const Register = () => {
     const { setToken } = useAuth();
@@ -74,7 +75,7 @@ const Register = () => {
         sm={4}
         md={7}
         sx={{
-          backgroundImage:  `url(${"src/assets/money.jpg"})`,
+          backgroundImage:  `url(${money})`,
           backgroundRepeat: 'no-repeat',
           backgroundColor: (t) =>
             t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],

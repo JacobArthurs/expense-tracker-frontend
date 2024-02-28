@@ -6,6 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import LoginIcon from '@mui/icons-material/Login';
 import { useState } from "react";
+import icon from "../../assets/favicon-192x192.png"
 
 export const LandingToolbarComponent = ({ darkMode, onToggleDarkMode }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -18,7 +19,15 @@ export const LandingToolbarComponent = ({ darkMode, onToggleDarkMode }) => {
     <AppBar position="fixed" sx={{ bgcolor: darkMode ? null : 'white'}}>
       <Toolbar>
         <Container maxWidth="lg" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <img src="/src/assets/favicon-192x192.png" alt='Expense Tracker' style={{ display: 'block', width: '48px', height: '48px' }}/>
+          <Box
+            component="img"
+            alt='Expense Tracker'
+            src={icon}
+            sx={{
+                width: '48px',
+                height: '48px'
+            }} 
+          />
           <Box sx={{ display: {xs: 'none', md: 'flex' }, alignItems: 'center', gap:2}}>
             <Button
               component={Link}
