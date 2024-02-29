@@ -50,7 +50,7 @@ export const ManageExpenseDialogComponent = ({ id, categories, open, onClose, on
         ...data,
         categoryId: data.category,
       });
-      onClose();
+      handleClose();
       onOpenResultSnack();
       onResultSnackMessageChange(response.data.message);
       onResultSnackSeverityChange('success');

@@ -164,7 +164,7 @@ const Expenses = () => {
       await deleteData(selectedRows);
       setSelectedRows([]);
       setOpenDeleteDialog(false);
-      fetchData();
+      fetchData(watch());
     }
   };
   
