@@ -182,7 +182,7 @@ const Expenses = () => {
   const handleCloseManageExpenseDialog = () => {
     setOpenManageExpenseDialog(false);
     setManageExpenseId(null);
-    fetchData();
+    fetchData(watch());
   };
 
   return (
