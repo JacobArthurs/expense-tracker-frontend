@@ -36,7 +36,7 @@ const Login = () => {
       const { data: token } = await axios.post(`${apiUrl}/authentication/login`, {
         userName: data.userName,
         password: data.password,
-      });
+      }, { skipAuth: true, withCredentials: true });
 
       if (token) {
           setToken(token);

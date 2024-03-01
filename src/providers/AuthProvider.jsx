@@ -13,11 +13,11 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (token) {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       localStorage.setItem('token',token);
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
     } else {
-      delete axios.defaults.headers.common["Authorization"];
       localStorage.removeItem('token')
+      delete axios.defaults.headers.common["Authorization"]
     }
   }, [token]);
 
@@ -33,15 +33,55 @@ const AuthProvider = ({ children }) => {
       }
     };
 
+    checkTokenExpiration();
     const expirationCheckTimer = setInterval(checkTokenExpiration, 300000);
     return () => clearInterval(expirationCheckTimer);
 
   }, [token]);
 
+  const ensureTokenIsSet = (timeout = 5000) => {
+    return new Promise((resolve, reject) => {
+      const startTime = Date.now();
+
+      const checkAuthorizationHeader = () => {
+        if (token && axios.defaults.headers.common["Authorization"]) {
+          resolve();
+        } 
+        else if (Date.now() > startTime + timeout) {
+          reject(new Error("Token setting timed out."));
+        } else {
+          setTimeout(checkAuthorizationHeader, 100);
+        }
+      };
+
+      checkAuthorizationHeader();
+    });
+  };
+
+  axios.interceptors.request.use(async config => {
+    if (config.skipAuth) {
+      return config;
+    }
+
+    try {
+      if (!config.headers.Authorization) {
+        await ensureTokenIsSet();
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    } catch (error) {
+      console.error(error);
+      return Promise.reject(error);
+    }
+    
+    return config;
+  }, error => {
+    return Promise.reject(error);
+  });
+
   const contextValue = useMemo(
     () => ({
       token,
-      setToken,
+      setToken
     }),
     [token]
   );

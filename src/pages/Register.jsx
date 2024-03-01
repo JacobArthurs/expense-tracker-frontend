@@ -41,13 +41,13 @@ const Register = () => {
           password: data.password,
           name: data.name,
           email: data.email
-        });
+        }, { skipAuth: true, withCredentials: true });
 
         if (registration && registration.success) {
             const response = await axios.post(`${apiUrl}/authentication/login`, {
               userName: data.userName,
               password: data.password,
-            });
+            }, { skipAuth: true, withCredentials: true });
 
             const token = response.data;
 
