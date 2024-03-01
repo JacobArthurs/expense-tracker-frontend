@@ -19,7 +19,7 @@ export const PasswordTextFieldComponent = ({ label, register, name, rules, error
       helperText={error?.message}
       InputProps={{
         endAdornment: (
-          <InputAdornment>
+          <InputAdornment position="end">
             <IconButton
               onClick={togglePasswordVisibility}
               edge="end"
