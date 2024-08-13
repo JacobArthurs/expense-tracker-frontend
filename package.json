@@ -17,7 +17,7 @@
     "@mui/material": "^5.15.3",
     "@mui/x-charts": "^6.19.1",
     "@mui/x-date-pickers": "^6.19.0",
-    "axios": "^1.6.5",
+    "axios": "^1.7.4",
     "dayjs": "^1.11.10",
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
